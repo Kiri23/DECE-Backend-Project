@@ -1,6 +1,7 @@
 notes.md
 .vscode
 EducacionContinua/settings.py
+*/__pycache__/
 
 
 # Created by https://www.gitignore.io
@@ -87,7 +88,6 @@ target/
 *.log
 *.pot
 *.pyc
-*/__pycache__/
 local_settings.py
 
 .env
