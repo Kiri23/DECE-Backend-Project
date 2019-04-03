@@ -4,4 +4,4 @@ from django.shortcuts import render
 
 
 def curso(request):
-    return render(request, "curso/curso.html")
+    return render(request, "curso/curso_detail.html")

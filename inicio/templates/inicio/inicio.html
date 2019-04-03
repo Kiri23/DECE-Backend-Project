@@ -28,51 +28,8 @@
 </section>
 <!-- End Como funciona -->
 
-<!-- Categoria Check Boxes -->
-<section class="categoriasSection bg-secondary bg-light">
-    <div class="container text-dark">
-        <div class="row categoriasCheckBoxes">
-            <div class="col-lg-12">
-                <div class="form-check form-check-inline px-3">
-                    <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
-                    <label class="form-check-label" for="inlineCheckbox1">Todos</label>
-                </div>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2">
-                    <label class="form-check-label" for="inlineCheckbox2">Computadoras</label>
-                </div>
-                <div class="form-check form-check-inline px-3">
-                    <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="option3">
-                    <label class="form-check-label" for="inlineCheckbox3">Educacion</label>
-                </div>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="option3">
-                    <label class="form-check-label" for="inlineCheckbox3">Idiomas</label>
-                </div>
-                <div class="form-check form-check-inline px-3">
-                    <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="option3">
-                    <label class="form-check-label" for="inlineCheckbox3">Contabilidad</label>
-                </div>
-                <!-- Dropdown -->
-                <div class="form-check form-check-inline">
-                    <div class="dropdown">
-                        <!-- Add class for no hover -->
-                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
-                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Dropdown button
-                        </button>
-                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <a class="dropdown-item" href="#">Action</a>
-                            <a class="dropdown-item" href="#">Another action</a>
-                            <a class="dropdown-item" href="#">Something else here</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    </div>
-</section>
+<!-- partial of Categoria Check Boxes -->
+{% include 'curso/partial/categoria.html' %}
 
 <section class="cursosSection bg-light">
     <!-- Filtrar por -->
@@ -92,44 +49,7 @@
             </div>
         </div>
     </div>
-
-    <!-- End Categoria Check Boxes -->
-
-    <!-- Cursos -->
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-4">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">Special title treatment</h5>
-                        <p class="card-text">With supporting text below as a natural lead-in to additional content.
-                        </p>
-                        <a href="{% url 'curso' %}" class="btn btn-primary">Go somewhere</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-4">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">Special title treatment</h5>
-                        <p class="card-text">With supporting text below as a natural lead-in to additional content.
-                        </p>
-                        <a href="#" class="btn btn-primary">Go somewhere</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-4">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">Special title treatment</h5>
-                        <p class="card-text">With supporting text below as a natural lead-in to additional content.
-                        </p>
-                        <a href="#" class="btn btn-primary">Go somewhere</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-<!-- End Cursos -->
+    
+    <!-- Curso List view -->
+    {% include 'curso/curso_listView.html' %}
 {%endblock%}
