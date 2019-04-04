@@ -1,18 +1,13 @@
 from django.shortcuts import render
 import logging
+from django.views import View
+from curso.views import CursoListView
 
 
-# Create your views here.
-
-
-def inicio(request):
-    # Aunque le este enviando el context al index.html. El context puede viajar anidamente los template. index.html -> base.html -> navbar.hmtl
-    context = {"indexNavActiveClass": "active"}
-    logger = logging.getLogger("myproject")
-    var = " my variable"
-    # A string with a variable at the "info" level
-    # logger.info("The value of var is %s", var)
-    # logger.warning("Your log message is here. part 2")
-    # logger.error('Something went wrong! testing 4 - views')
-
-    return render(request, 'inicio/inicio.html', context)
+class inicio(View):
+    def get(self, request, *args, **kwargs):
+        # Aunque le este enviando el context al index.html. El context puede viajar anidamente los template. index.html -> base.html -> navbar.hmtl
+        context = {"indexNavActiveClass": "active"}
+        listaDeCurso = CursoListView.get_queryset(CursoListView).values()
+        print(listaDeCurso, 'context de inicio')
+        return render(request, 'inicio/inicio.html', {"context": context, "query": listaDeCurso})
