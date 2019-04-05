@@ -1,0 +1,33 @@
+<!-- Categoria Check Boxes -->
+<section class="categoriasSection bg-secondary bg-light">
+    <div class="container text-dark">
+        <div class="row categoriasCheckBoxes">
+            <div class="col-lg-12">
+                {% for categorias in object_list %}
+                <div class="form-check form-check-inline px-3">
+                    <input class="form-check-input" type="checkbox" id={{categorias.nombre}}
+                        value="{{categorias.nombre}}">
+                    <label class="form-check-label" for="{{categorias.nombre}}">{{categorias.nombre}}</label>
+                </div>
+                {%endfor%}
+                <!-- Dropdown -->
+                <div class="form-check form-check-inline">
+                    <div class="dropdown">
+                        <!-- Add class for no hover -->
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Dropdown button
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="#">Action</a>
+                            <a class="dropdown-item" href="#">Another action</a>
+                            <a class="dropdown-item" href="#">Something else here</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+</section>
+<!-- End Categoria Check Boxes -->

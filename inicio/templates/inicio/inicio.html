@@ -29,7 +29,7 @@
 <!-- End Como funciona -->
 
 <!-- partial of Categoria Check Boxes -->
-{% include 'curso/partial/categoria.html' %}
+{% include 'curso/categorias_list.html' with object_list=categorias%}
 
 <section class="cursosSection bg-light">
     <!-- Filtrar por -->
@@ -51,5 +51,5 @@
     </div>
 
     <!-- Curso List view -->
-    {% include 'curso/curso_list.html' with object_list=query%}
+    {% include 'curso/curso_list.html' with object_list=cursos%}
     {%endblock%}
