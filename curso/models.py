@@ -42,7 +42,7 @@ class Profesor(models.Model):
 class Categorias(models.Model):
     nombre = models.CharField(max_length=100, verbose_name='Nombre')
     popularidad = models.PositiveSmallIntegerField(
-        default=20000, validators=[MinValueValidator(1)], help_text="Elija un numero de 1 a 5 para ordenar las categorias mediante la popularidad")
+        default=20000, validators=[MinValueValidator(1)], help_text="Elija un numero para ordenar los cursos mediante la popularidad.")
 
     def __str__(self):
         return self.nombre

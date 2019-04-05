@@ -17,7 +17,7 @@
     <link rel="stylesheet" href="{% static 'library/int-Tel-Input/css/intlTelInput.min.css' %}">
     <link rel="stylesheet" href="{% static 'library/autocomplete/awesomplete.css'%}">
     <!-- <link rel="stylesheet" href="inscribete.css"> -->
-
+    {%block extraStyle %} {%endblock%}
 
     <title>{%block title %} Inicio {%endblock%}</title>
 </head>
@@ -35,7 +35,7 @@
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src=" {% static 'library/jquery/jquery-3.2.1.slim.min.js' %} "></script>
+    <script src=" {% static 'library/jquery/jquery-3.3.1.min.js' %} "></script>
     <script src=" {%static 'library/popper/popper.min.js' %} "></script>
     <script src=" {%static 'library/bootstrap-4.3.1-dist/js/bootstrap.min.js'  %} "></script>
 
@@ -49,8 +49,11 @@
     <script
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDjg0yeAHxx32XWE4zxODFr1vGaKhwdH4Q&libraries=places&callback=initAutocomplete"
         async defer></script>
-
     <script src=" {% static  'js/inscribete.js'%}"></script>
+
+    {%block extraScript%}{%endblock%}
+
+
 </body>
 
 </html>

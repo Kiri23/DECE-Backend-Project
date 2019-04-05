@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{%load static%}
 
 {% block content%}
 <section class="comoFuncionaSection py-2">
@@ -52,4 +53,9 @@
 
     <!-- Curso List view -->
     {% include 'curso/curso_list.html' with object_list=cursos%}
-    {%endblock%}
+</section>
+{%endblock%}
+
+{%block extraScript%}
+<script src=" {% static  'js/inicio.js'%}"></script>
+{%endblock%}
