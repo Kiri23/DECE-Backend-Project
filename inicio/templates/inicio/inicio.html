@@ -57,5 +57,8 @@
 {%endblock%}
 
 {%block extraScript%}
+<script> 
+    var URL = "{%url 'ajax_cursos' %}";
+</script>
 <script src=" {% static  'js/inicio.js'%}"></script>
 {%endblock%}
