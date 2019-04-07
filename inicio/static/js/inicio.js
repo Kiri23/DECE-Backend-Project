@@ -1,34 +1,45 @@
-console.log("Hola from Inicio.js")
-console.log($)
 // Shorthand for document.ready()
 $(function () {
-    console.log('hola')
-    console.log(URL)
+    var categoriasChecked = []
+    $(".categoriaCheckbox").each(function () {
+        console.log($(this).prop('checked'))
+        $(this).change(function () {
+            if (this.checked){
+                categoriasChecked.push(this.value)
+            }else if (!this.checked){
+                // remove specify item by value
+                var index = categoriasChecked.indexOf(this.value);
+                if (index > -1) {
+                    console.log('se va a remover')
+                    categoriasChecked.splice(index, 1);
+                    if (categoriasChecked.length == 0){
+                        console.log('el array no tiene ningun elemento')
+                        return updateCurso('Todos')
+                    }
+                }
+            }
+            console.log('array', categoriasChecked)
+            console.log(this.checked)
+            updateCurso(categoriasChecked)
+        });
+    });
 })
 
-$(".categoriaCheckbox").each(function () {
-    console.log($(this).prop('checked'))
-    $(this).change(function () {
-        console.log('this change', this)
-        updateCurso(this.value)
-
-    });
-});
-
 function updateCurso(categorias){
+    console.log(categorias[0], 'array in update curso')
     var data = {'categoria': categorias}
-    console.log('update curso data: ', data)
+    console.log(data, 'array in update curso')
     $.get(URL, data).done(function(listaDeCurso){
         console.log("fue succesful la llamada de Ajax")
         // console.log(listaDeCurso.cursos)
         var html = createHtml(listaDeCurso.cursos)
-        console.log(listaDeCurso.cursos[0].titulo)
-        console.log(html)
+        // console.log(listaDeCurso.cursos[0].titulo)
+        // console.log(html)
         $('.curso').html(html)
         // window.location.search += 'categoria='+categorias;
     })
-    .fail(function(){
-        console.log("Hubo un error en la llamada ajax")
+    .fail(function(s,d,e){
+        console.log("Hubo un error en la llamada ajax", e)
     });
 }
 

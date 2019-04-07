@@ -4,16 +4,15 @@ from .models import Curso, Categorias
 
 
 class CursoListView(generic.ListView):
+    context = ''
     def get_queryset(self, categoria):
         if categoria =="Todos":
             print('Todos los cursos en listview')
             return Curso.objects.all()
         else:
             print('categoria from inicio in the curso app ', categoria)
-            print(Curso.objects.filter(categoria__nombre__iexact=categoria))
-
-            return Curso.objects.filter(categoria__nombre__iexact=categoria)
-        # return Curso.objects.all()
+            print(Curso.objects.filter(categoria__nombre__in=categoria))
+            return Curso.objects.filter(categoria__nombre__in=categoria)
 
 class CategoriaListView(generic.ListView):
     def get_queryset(self):
