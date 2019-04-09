@@ -10,24 +10,10 @@
                     <label class="form-check-label" for="{{categorias.nombre}}">{{categorias.nombre}}</label>
                 </div>
                 {%endfor%}
-                <!-- Dropdown -->
-                <div class="form-check form-check-inline">
-                    <div class="dropdown">
-                        <!-- Add class for no hover -->
-                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
-                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Dropdown button
-                        </button>
-                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <a class="dropdown-item" href="#">Action</a>
-                            <a class="dropdown-item" href="#">Another action</a>
-                            <a class="dropdown-item" href="#">Something else here</a>
-                        </div>
-                    </div>
-                </div>
+                <!-- Modal for more categories -->
+                {% include 'curso/categorias_list_modal.html' with object_list=cursos%}
             </div>
         </div>
-    </div>
     </div>
 </section>
 <!-- End Categoria Check Boxes -->

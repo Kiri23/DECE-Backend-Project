@@ -1,42 +1,54 @@
+DEBUG = false
 // Shorthand for document.ready()
 $(function () {
     var categoriasChecked = []
+    // for each checkbox listen for a change event and update the list of course displaying
     $(".categoriaCheckbox").each(function () {
-        console.log($(this).prop('checked'))
         $(this).change(function () {
-            if (this.checked){
-                categoriasChecked.push(this.value)
-            }else if (!this.checked){
-                // remove specify item by value
-                var index = categoriasChecked.indexOf(this.value);
-                if (index > -1) {
-                    console.log('se va a remover')
-                    categoriasChecked.splice(index, 1);
-                    if (categoriasChecked.length == 0){
-                        console.log('el array no tiene ningun elemento')
-                        return updateCurso('Todos')
-                    }
-                }
-            }
-            console.log('array', categoriasChecked)
-            console.log(this.checked)
-            updateCurso(categoriasChecked)
+            checkBox = this
+            // testThis(checkBox)
+            updateCursoList(checkBox,categoriasChecked)
         });
     });
 })
 
-function updateCurso(categorias){
-    console.log(categorias[0], 'array in update curso')
+/**
+ * Esta funcion actualiza la lista de curso en la pagina de inicio
+ */
+function updateCursoList(checkBox, checkBoxArr){
+    if (checkBox.checked){
+        checkBoxArr.push(checkBox.value)
+    }else if (!checkBox.checked){
+       removeCategory(checkBoxArr,checkBox)
+    }
+    updateCursoAjax(checkBoxArr)
+}
+/**
+ * Remueve la categoria especificada de la lista de checkbox
+ */
+function removeCategory(checkBoxArr, checkBox){
+    var index = checkBoxArr.indexOf(checkBox.value);
+    if (index > -1) {
+        checkBoxArr.splice(index, 1);
+    if (checkBoxArr.length == 0){
+        // No categories checkbox is selected.Send Todos to list all course
+        return updateCursoAjax('Todos')
+    }  
+}
+}
+
+/**
+ * La llamada ajax que utilizó para actualizar los cursos al momento cuando se elige una categoria 
+ * @param {List} categorias - Por las categorias que voy a filtrar los cursos
+ */
+function updateCursoAjax(categorias){
     var data = {'categoria': categorias}
-    console.log(data, 'array in update curso')
+    debugLog(data,DEBUG)
+    // Ajax Call. The URL is pass in the inicio.html template
     $.get(URL, data).done(function(listaDeCurso){
         console.log("fue succesful la llamada de Ajax")
-        // console.log(listaDeCurso.cursos)
         var html = createHtml(listaDeCurso.cursos)
-        // console.log(listaDeCurso.cursos[0].titulo)
-        // console.log(html)
         $('.curso').html(html)
-        // window.location.search += 'categoria='+categorias;
     })
     .fail(function(s,d,e){
         console.log("Hubo un error en la llamada ajax", e)
@@ -67,3 +79,13 @@ function createHtml(listaDeCurso){
     `
     return html
 }
+
+
+
+// Helper Methods
+function debugLog(data,isDebug){
+     if (DEBUG){
+        console.log(data, 'Las categorias que se van a enviar a llamada Ajax')
+    }
+}
+    

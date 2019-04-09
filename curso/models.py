@@ -3,6 +3,7 @@ from django.urls import reverse
 
 from .validators import validacion_dias_de_la_semana
 from django.core.validators import MaxValueValidator, MinValueValidator
+from .queryset import CursoQuerySet, CategoriasQuerySet
 
 
 class Curso(models.Model):
@@ -24,6 +25,9 @@ class Curso(models.Model):
     categoria = models.ForeignKey(
         'Categorias', on_delete=models.CASCADE, help_text="La categoria que pertenece este curso.")
 
+    # Specific properties to the model
+    objects = CursoQuerySet.as_manager()
+    
     def __str__(self):
         return self.titulo
 
@@ -44,12 +48,16 @@ class Categorias(models.Model):
     popularidad = models.PositiveSmallIntegerField(
         default=20000, validators=[MinValueValidator(1)], help_text="Elija un numero para ordenar los cursos mediante la popularidad.")
 
+    # Specific properties to the model
+    objects = CategoriasQuerySet.as_manager()
+
     def __str__(self):
         return self.nombre
 
     class Meta:
+        # for admin listView
         ordering = ['popularidad']
 
 
 # TODO:
-#   1) Hacer funcion para obtener el nombre
+#   1) Hacer funcion para obtener el nombre en el modelo no en el queryset

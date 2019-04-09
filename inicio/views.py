@@ -12,10 +12,10 @@ class inicio(View):
         logger = logging.getLogger(__name__)
         # Aunque le este enviando el context al index.html. El context puede viajar anidamente los template. index.html -> base.html -> navbar.hmtl
         context = {"indexNavActiveClass": "active"}
-        categoria = 'Todos'
-        print(f'categoria es: {categoria}')
-        listaDeCurso = CursoListView.get_queryset(CursoListView, categoria).values()
-        categorias = CategoriaListView.get_queryset(CategoriaListView).values()
+        # When the page first load I want to show all courses then all course filtering is done through the ajax call. 
+        categorias = "Todos"
+        listaDeCurso = cargarListaDeCurso(categorias)
+        categorias = cargarListaDeCategorias()
         self.debug(logger, listaDeCurso, categorias, request)
         return render(request, 'inicio/inicio.html', {"context": context, "cursos": listaDeCurso, "categorias": categorias})
 
@@ -27,42 +27,41 @@ class inicio(View):
         lista = [curso for curso in listaDeCurso]
         # print(f'lista de curso en context: {lista}')
 
-    # def categoriaFromUrl(self,request, CursoListView):
-    #     categoria='Todos'
-    #     print(f'request is ajax?:{request.is_ajax()}')
-    #     # if request.is_ajax():
-    #     if request.method == 'GET':
-    #         if 'categoria' in request.GET:
-    #             categoria = request.GET['categoria']
-    #             return categoria
-    #     return categoria
+def cargarListaDeCurso(categoria):
+    listaDeCurso = CursoListView.get_queryset(CursoListView, categoria).values()
+    return listaDeCurso
 
+def cargarListaDeCategorias():
+    categorias = CategoriaListView.get_queryset(CategoriaListView).values()
+    print(f'las primeras cinco categorias: {categorias} ')
+    return categorias
 
+'''
+    Este metodo se llama cuando un estudiante cambio el estado de un Checkbox para mostrar los diferentes cursos
+'''
 def obtenerCategoriaFromAjax(request):
-    print('hello')
     # if request.is_ajax():
     if request.method == 'GET':
-        print('hello 1')
         if 'categoria[]' in request.GET:
-            print('hello 2')
+            # El usuario marco uno/s checkbox. Filtrar por esa categoria/s
+            #TODO Si lo pongo con el metodo no funciona. No se Porque 
             categoria = request.GET.getlist('categoria[]')
-            print('categoria from inicio view', categoria )
-            queryDeCurso = CursoListView.get_queryset(CursoListView, categoria).values()
+            queryDeCurso = cargarListaDeCurso(categoria)
             listaDeCurso = [curso for curso in queryDeCurso]
-            # print(f'lista de curso ajax{listaDeCurso}')
             data = {
                 'cursos': listaDeCurso
             }
             return JsonResponse(data)
         elif 'categoria' in request.GET:
-            print('sola una categoria')
-            categoria = request.GET['categoria']
-            queryDeCurso = CursoListView.get_queryset(CursoListView, categoria).values()
-            listaDeCurso = [curso for curso in queryDeCurso]
-            # print(f'lista de curso ajax{listaDeCurso}')
-            data = {
-                'cursos': listaDeCurso
-            }
-            return JsonResponse(data)
+            # volver a mostrar todos los cursos cuando el usuario deseleciono todos los checkbox
+            curso = cursoFromUrl('categoria', request)
+            return JsonResponse(curso)
 
-
+def cursoFromUrl(queryParam, request):
+    categoria = request.GET[queryParam]
+    queryDeCurso = cargarListaDeCurso(categoria)
+    listaDeCurso = [curso for curso in queryDeCurso]
+    data = {
+        'cursos': listaDeCurso
+    }
+    return data
