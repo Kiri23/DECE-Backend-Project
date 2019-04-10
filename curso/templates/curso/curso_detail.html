@@ -8,27 +8,27 @@
             <img src="{% static 'img/40.png'%}" alt="">
         </div>
         <div class="col-lg-5">
-            <h4>Titulo: Cordinación de actividades especiales</h4>
+            <h4>Titulo: {{curso.titulo}}</h4>
         </div>
         <div class="offset-lg-1"></div>
         <div class="col-lg-4">
-            <h4>Costo: $180.00</h4>
+            <h4>Costo: {{curso.costo}}</h4>
         </div>
     </div>
     <div class="row py-2">
         <div class="offset-lg-2"></div>
         <div class="col-lg-5">
-            <h4> Instructor: Marybel Velez</h4>
+            <h4> Instructor: {{curso.profesor}}</h4>
         </div>
         <div class="offset-lg-1"></div>
         <div class="col-lg-4">
-            <h4>Dias: Lunes y Miercoles (L-M)</h4>
+            <h4>Dias: {{curso.dias}}</h4>
         </div>
     </div>
     <div class="row">
         <div class="offset-lg-2"></div>
         <div class="col-lg-5">
-            <h4> Hora: 8:30 -10:30</h4>
+            <h4> Hora: {{curso.duracion}}</h4>
         </div>
         <div class="offset-lg-5"></div>
     </div>
@@ -36,9 +36,7 @@
         <div class="offset-lg-2"></div>
         <div class="col-lg-10">
             <h4 class="text-center">Descripción</h4>
-            <h4>Lorem ipsum dolor sit amet consectetur adipisicing elit. Repudiandae minus voluptatum dignissimos
-                repellendus sequi recusandae omnis corporis totam libero? Perspiciatis aliquam dignissimos
-                reiciendis vitae fugiat ullam quibusdam ducimus nisi modi! <strong>Ver mas</strong>
+            <h4>{{curso.descripcion}}<strong>Ver mas</strong>
             </h4>
         </div>
     </div>

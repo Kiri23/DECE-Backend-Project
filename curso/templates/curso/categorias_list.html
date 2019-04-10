@@ -3,15 +3,15 @@
     <div class="container text-dark">
         <div class="row categoriasCheckBoxes">
             <div class="col-lg-12">
-                {% for categorias in object_list %}
+                {% for categoria in categorias.masPopulares %}
                 <div class="form-check form-check-inline px-3">
-                    <input class="form-check-input categoriaCheckbox" type="checkbox" id={{categorias.nombre}}
-                        value="{{categorias.nombre}}">
-                    <label class="form-check-label" for="{{categorias.nombre}}">{{categorias.nombre}}</label>
+                    <input class="form-check-input categoriaCheckbox" type="checkbox" id={{categoria.nombre}}
+                        value="{{categoria.nombre}}">
+                    <label class="form-check-label" for="{{categoria.nombre}}">{{categoria.nombre}}</label>
                 </div>
                 {%endfor%}
                 <!-- Modal for more categories -->
-                {% include 'curso/categorias_list_modal.html' with object_list=cursos%}
+                {% include 'curso/categorias_list_modal.html' with categorias=categorias%}
             </div>
         </div>
     </div>

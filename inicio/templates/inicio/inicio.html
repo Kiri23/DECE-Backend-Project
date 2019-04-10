@@ -30,7 +30,7 @@
 <!-- End Como funciona -->
 
 <!-- partial of Categoria Check Boxes -->
-{% include 'curso/categorias_list.html' with object_list=categorias%}
+{% include 'curso/categorias_list.html' with categorias=categorias%}
 
 <section class="cursosSection bg-light">
     <!-- Filtrar por -->
@@ -52,13 +52,15 @@
     </div>
 
     <!-- Curso List view -->
-    {% include 'curso/curso_list.html' with object_list=cursos%}
+    {% include 'curso/curso_list.html' with cursos=cursos%}
 </section>
 {%endblock%}
 
 {%block extraScript%}
-<script> 
+<script>
     var URL = "{%url 'ajax_cursos' %}";
 </script>
 <script src=" {% static  'js/inicio.js'%}"></script>
 {%endblock%}
+
+<!-- https://www.domestika.org/ -->
