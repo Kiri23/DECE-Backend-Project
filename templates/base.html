@@ -26,7 +26,20 @@
     <!-- Partial of navbar -->
     {% include 'partials/_navbar.html' %}
     <!-- Partial of header -->
-    {% include 'partials/_header.html' %}
+    {%block header%}
+    {% include 'partials/_header.html'%}
+    {%endblock%}
+    {%block breadcumb %}
+    <!-- Partial of breadcumb -->
+    {% include 'partials/_breadcumb.html'%}
+    {%endblock%}
+    {%block closeBreadcumb%}
+    </ol>
+    </nav>
+    </div>
+    </div>
+    {%endblock%}
+
     <!-- Main Content -->
     {% block content %} {%endblock%}
     <!-- Partial of footer -->

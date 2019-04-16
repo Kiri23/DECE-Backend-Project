@@ -1,6 +1,9 @@
 {% extends 'base.html' %}
 {%load static%}
-
+{%block breadcumb%}
+{{block.super}}
+<li class="breadcrumb-item"><a href="{% url 'inicio' %} "></a></li>
+{%endblock%}
 {% block content%}
 <section class="comoFuncionaSection py-2">
     <div class="container">
@@ -44,9 +47,8 @@
                 Popularidad
             </button>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <a class="dropdown-item" href="#">Action</a>
-                <a class="dropdown-item" href="#">Another action</a>
-                <a class="dropdown-item" href="#">Something else here</a>
+                <a class="dropdown-item" href="#">Precio mas bajo</a>
+                <a class="dropdown-item" href="#">Precio mas alto</a>
             </div>
         </div>
     </div>
@@ -59,6 +61,8 @@
 {%block extraScript%}
 <script>
     var URL = "{%url 'ajax_cursos' %}";
+    // To change the content of the Header within the database
+    var header_content = $("#header_content").html("{{heading}}")
 </script>
 <script src=" {% static  'js/inicio.js'%}"></script>
 {%endblock%}

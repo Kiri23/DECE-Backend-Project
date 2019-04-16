@@ -68,7 +68,7 @@ function createHtml(listaDeCurso) {
                         <h5 class="card-title titulo_curso">` + listaDeCurso[index].titulo + `</h5>
                         <p class="card-text">`+ listaDeCurso[index].descripcion + `
                         </p>
-                        <a href="{% url 'curso:curso' curso.id %}" class="btn btn-primary">Ver mas</a>
+                        <a href="curso/`+ listaDeCurso[index].id + ` " class="btn btn-primary">Ver mas</a>
                     </div>
                 </div>
             </div>`

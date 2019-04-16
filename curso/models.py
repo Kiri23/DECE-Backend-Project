@@ -27,7 +27,7 @@ class Curso(models.Model):
 
     # Specific properties to the model
     objects = CursoQuerySet.as_manager()
-    
+
     def __str__(self):
         return self.titulo
 

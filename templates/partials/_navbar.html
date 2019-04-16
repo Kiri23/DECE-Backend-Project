@@ -12,25 +12,27 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav">
                 <li class="nav-item {{context.indexNavActiveClass}}">
-                    <a class="nav-link" href="{% url 'inicio' %}">Inicio <span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="{% url 'inicio' %}">Crea una cuenta </a>
                 </li>
-                <li class="nav-item {{cursoNavActiveClass}}">
-                    <a class="nav-link" href="{% url 'curso:lista_de_curso' %} ">Curso</a>
+                <li class="nav-item">
+                    <a class="nav-link" href="">Conectate a la cuenta</a>
+                </li>
+                <li class="nav-item">
+                    <form class="d-inline" action="">
+                        <input type="search" name="search" id="" placeholder="Busca cursos por titulos ">
+                        <input type="submit" value="Buscar">
+                    </form>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Dropdown
+                        Jose Rivera
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="#">Action</a>
-                        <a class="dropdown-item" href="#">Another action</a>
-                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#">Ver Perfil</a>
+                        <a class="dropdown-item" href="#">Ver cursos tomados</a>
                         <a class="dropdown-item" href="#">Something else here</a>
                     </div>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link disabled" href="#">Disabled</a>
                 </li>
             </ul>
         </div>
