@@ -24,6 +24,10 @@ class Curso(models.Model):
         'Profesor', on_delete=models.CASCADE, help_text="El profesor del curso")
     categoria = models.ForeignKey(
         'Categorias', on_delete=models.CASCADE, help_text="La categoria que pertenece este curso.")
+    imagen = models.ImageField(
+        upload_to='curso/imagen/', blank=True)
+    video = models.FileField(
+        upload_to='curso/video/', blank=True)
 
     # Specific properties to the model
     objects = CursoQuerySet.as_manager()
