@@ -1,23 +1,23 @@
 from django.contrib import admin
-from .models import Curso, Categorias
+from .models import Curso, Categorias, Temas, Subtemas
 from profesor.models import Profesor
 
 
-class CategoriasInline(admin.StackedInline):
-    model = Categorias
-
-
-class ProfesorInline(admin.StackedInline):
-    model = Profesor
+class TemasInline(admin.StackedInline):
+    model = Temas
 
 
 class CursoAdmin(admin.ModelAdmin):
     inlines = [
-        CategoriasInline,
-        ProfesorInline,
+        TemasInline,
     ]
 
+    class Meta:
+        model = Curso
 
-admin.site.register(Curso)
+
+admin.site.register(Curso, CursoAdmin)
+admin.site.register(Temas)
+admin.site.register(Subtemas)
 admin.site.register(Categorias)
 admin.site.register(Profesor)

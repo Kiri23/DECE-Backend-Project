@@ -57,5 +57,27 @@ class Categorias(models.Model):
         ordering = ['popularidad']
 
 
-# TODO:
-#   1) Hacer funcion para obtener el nombre en el modelo no en el queryset
+# Tablas para prontuario clases
+class Temas(models.Model):
+    curso = models.ForeignKey(
+        'Curso', on_delete=models.CASCADE, null=True)
+    nombre = models.CharField(max_length=2000)
+    subtema = models.ForeignKey(
+        'Subtemas', on_delete=models.CASCADE, null=True)
+
+    def __str__(self):
+        return self.nombre
+
+    # I made this little hack to have nested Inline form on the admin. So I can add temas y subtemas en el curso create view
+    def save(self, *args, **kwargs):
+        self.subtema.tema = self
+        super().save(*args, **kwargs)
+
+
+class Subtemas(models.Model):
+    tema = models.ForeignKey(
+        'Temas', on_delete=models.CASCADE, blank=True, null=True)
+    nombre = models.CharField(max_length=2000)
+
+    def __str__(self):
+        return self.nombre
