@@ -1,5 +1,6 @@
 from django.contrib import admin
-from .models import Curso, Categorias, Profesor
+from .models import Curso, Categorias
+from profesor.models import Profesor
 
 
 class CategoriasInline(admin.StackedInline):

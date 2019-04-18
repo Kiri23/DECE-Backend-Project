@@ -1,3 +1,13 @@
 from django.db import models
+from django.urls import reverse
 
-# Create your models here.
+
+class Profesor(models.Model):
+    nombre = models.CharField(max_length=50, verbose_name='Nombre')
+    apellido = models.CharField(max_length=50, verbose_name='Apellidos')
+
+    def __str__(self):
+        return self.nombre
+
+    def get_absolute_url(self):
+        return reverse("profesor:profesor", kwargs={"pk": self.pk})

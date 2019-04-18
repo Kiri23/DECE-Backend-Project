@@ -1,5 +1,7 @@
 from django.db import models
 from django.urls import reverse
+from profesor.models import Profesor
+
 
 from .validators import validacion_dias_de_la_semana
 from django.core.validators import MaxValueValidator, MinValueValidator
@@ -21,7 +23,7 @@ class Curso(models.Model):
     seccion = models.SlugField(
         max_length=50, help_text="La sección del curso si este lleva una sección.", blank=True)
     profesor = models.ForeignKey(
-        'Profesor', on_delete=models.CASCADE, help_text="El profesor del curso")
+        'profesor.Profesor', on_delete=models.CASCADE, help_text="El profesor del curso")
     categoria = models.ForeignKey(
         'Categorias', on_delete=models.CASCADE, help_text="La categoria que pertenece este curso.")
     imagen = models.ImageField(
@@ -37,14 +39,6 @@ class Curso(models.Model):
 
     def get_absolute_url(self):
         return reverse("curso:curso", kwargs={"pk": self.pk})
-
-
-class Profesor(models.Model):
-    nombre = models.CharField(max_length=50, verbose_name='Nombre')
-    apellido = models.CharField(max_length=50, verbose_name='Apellidos')
-
-    def __str__(self):
-        return self.nombre
 
 
 class Categorias(models.Model):

@@ -1,3 +1,3 @@
 from django.contrib import admin
 
-# Register your models here.
+# This app is registered on the curso app admin.py
