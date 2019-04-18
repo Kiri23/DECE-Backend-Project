@@ -18,10 +18,6 @@ class Curso(models.Model):
         help_text="Los cupos disponibles para el curso")
     duracion = models.PositiveSmallIntegerField(
         verbose_name="duración", help_text="La duración del curso en horas")
-    tieneSeccion = models.BooleanField(
-        default=False, verbose_name="tiene sección", help_text='Marque el encasillado si este curso tiene una sección')
-    seccion = models.SlugField(
-        max_length=50, help_text="La sección del curso si este lleva una sección.", blank=True)
     profesor = models.ForeignKey(
         'profesor.Profesor', on_delete=models.CASCADE, help_text="El profesor del curso")
     categoria = models.ForeignKey(
@@ -55,6 +51,15 @@ class Categorias(models.Model):
     class Meta:
         # for admin listView
         ordering = ['popularidad']
+
+
+class Seccion(models.Model):
+    curso = models.ForeignKey(
+        'Curso', on_delete=models.CASCADE, null=True)
+    seccion = models.SlugField(
+        max_length=50, help_text="La sección del curso si este lleva una sección.", blank=True)
+    tieneSeccion = models.BooleanField(
+        default=False, verbose_name="tiene sección", help_text='Marque el encasillado si este curso tiene una sección')
 
 
 # Tablas para prontuario clases

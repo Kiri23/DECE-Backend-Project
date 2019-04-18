@@ -60,6 +60,5 @@ class CursoDetailView(generic.DetailView):
     model = Curso
     context_object_name = 'curso'
 
-
-def curso(request, pk):
-    return render(request, "curso/curso_detail.html")
+    def obtenerProntuario(self):
+        return "Texto que viene del view"    
