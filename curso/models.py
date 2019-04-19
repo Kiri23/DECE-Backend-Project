@@ -94,8 +94,6 @@ class Temas(models.Model):
 
 
 class Subtemas(models.Model):
-    curso = models.ForeignKey(
-        'Curso', on_delete=models.CASCADE, null=True)
     tema = models.ForeignKey(
         'Temas', on_delete=models.CASCADE, blank=True, null=True)
     nombre = models.CharField(max_length=2000)

@@ -1,33 +1,38 @@
 from django.contrib import admin
+# I use this for nested inline formset inside temas inlines
+from nested_admin import NestedModelAdmin, NestedStackedInline
 from .models import Curso, Categorias, Seccion, Temas, Subtemas, DiasDeLaSemana
 from profesor.models import Profesor
 
 
-class SeccionInline(admin.StackedInline):
+class SeccionInline(NestedStackedInline):
     model = Seccion
     extra = 1
     show_change_link = True
+    # This work because I change the the form template in my model admin class
     insert_after = 'tieneSeccion'
     classes = ("collapse",)
 
 
-class TemasInline(admin.StackedInline):
+class SubtemaInline(NestedStackedInline):
+    model = Subtemas
+    extra = 1
+    show_change_link = True
+    search_fields = ('nombre',)
+    classes = ("collapse",)
+
+
+class TemasInline(NestedStackedInline):
     model = Temas
     extra = 2
     show_change_link = True
     search_fields = ('nombre',)
     classes = ("collapse",)
+    # This work because I have a extra package
+    inlines = [SubtemaInline, ]
 
 
-class SubtemaInline(admin.StackedInline):
-    model = Subtemas
-    extra = 2
-    show_change_link = True
-    search_fields = ('nombre',)
-    classes = ("collapse",)
-
-
-class CursoAdmin(admin.ModelAdmin):
+class CursoAdmin(NestedModelAdmin):
     list_display = ('titulo', 'profesor', 'categoria',)
     list_display_links = ('titulo', 'profesor', 'categoria')
     list_filter = ('profesor', 'categoria')
@@ -44,8 +49,7 @@ class CursoAdmin(admin.ModelAdmin):
 
     inlines = [
         TemasInline,
-        SeccionInline,
-        SubtemaInline
+        SeccionInline
     ]
 
     # For rendering[modifying/hacking] the section inline after field tiene seccion
