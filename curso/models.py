@@ -60,8 +60,14 @@ class Seccion(models.Model):
     seccion = models.SlugField(
         max_length=50, help_text="La sección del curso si este lleva una sección.", blank=True)
 
+    def __str__(self):
+        return self.seccion
+# Query for subtema Subtemas.objects.filter(tema__curso__pk=11)
+#
 
 # I have this table for many to many fields
+
+
 class DiasDeLaSemana(models.Model):
     dias = models.CharField(verbose_name='Días', max_length=50,
                             validators=[validacion_dias_de_la_semana], default='', unique=True)
@@ -75,22 +81,40 @@ class Temas(models.Model):
     curso = models.ForeignKey(
         'Curso', on_delete=models.CASCADE, null=True)
     nombre = models.CharField(max_length=2000)
-    subtema = models.ForeignKey(
-        'Subtemas', on_delete=models.CASCADE, null=True)
+    # subtema = models.ForeignKey(
+    #     'Subtemas', on_delete=models.CASCADE, null=True)
 
     def __str__(self):
         return self.nombre
 
     # I made this little hack to have nested Inline form on the admin. So I can add temas y subtemas en el curso create view
-    def save(self, *args, **kwargs):
-        self.subtema.tema = self
-        super().save(*args, **kwargs)
+    # def save(self, *args, **kwargs):
+    #     self.subtema.tema = self
+    #     super().save(*args, **kwargs)
 
 
 class Subtemas(models.Model):
+    curso = models.ForeignKey(
+        'Curso', on_delete=models.CASCADE, null=True)
     tema = models.ForeignKey(
         'Temas', on_delete=models.CASCADE, blank=True, null=True)
     nombre = models.CharField(max_length=2000)
 
     def __str__(self):
         return self.nombre
+
+
+# Codigo
+'''
+  temas = Temas.objects.filter(curso__pk=11).only('nombre')
+#   subtemas = Subtemas.objects.filter(tema__curso__pk=11)
+  subtemas = Subtemas.objects.filter(tema__pk=3,tema__curso__pk=11).only('nombre')
+  temas_nombre = [tema.nombre for tema in temas]
+#   subtemas_tema = [subtema.tema_id for subtema in subtemas]
+  subtemas_nombre = [subtema.nombre for subtema in subtemas]
+# pero hay mejor forma de hacer esto con dict comprenhesion list
+  prontuario = dict(zip(temas_nombre,subtemas_nombre))
+#  prontuario = {k: v for k, v in zip(temas_nombre, subtemas_nombre)}
+  prontuario['tema1']
+#   Pero ahora el problema que estoy teniendo es que tema solamente puede tener un solo subtema         which is wrong. So temas debe de tener muchos subtemas
+'''
