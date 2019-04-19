@@ -11,13 +11,14 @@ from .queryset import CursoQuerySet, CategoriasQuerySet
 class Curso(models.Model):
     titulo = models.CharField(max_length=900)
     descripcion = models.TextField(verbose_name="descripción")
-    dias = models.CharField(verbose_name='Días', max_length=50,
-                            validators=[validacion_dias_de_la_semana], default='')
     costo = models.DecimalField(max_digits=6, decimal_places=2)
     cupos = models.PositiveSmallIntegerField(
         help_text="Los cupos disponibles para el curso")
     duracion = models.PositiveSmallIntegerField(
         verbose_name="duración", help_text="La duración del curso en horas")
+    tieneSeccion = models.BooleanField(
+        default=False, verbose_name="tiene sección", help_text='Marque el encasillado si este curso tiene una sección')
+    dias = models.ManyToManyField('DiasDeLaSemana', verbose_name='Días')
     profesor = models.ForeignKey(
         'profesor.Profesor', on_delete=models.CASCADE, help_text="El profesor del curso")
     categoria = models.ForeignKey(
@@ -58,8 +59,15 @@ class Seccion(models.Model):
         'Curso', on_delete=models.CASCADE, null=True)
     seccion = models.SlugField(
         max_length=50, help_text="La sección del curso si este lleva una sección.", blank=True)
-    tieneSeccion = models.BooleanField(
-        default=False, verbose_name="tiene sección", help_text='Marque el encasillado si este curso tiene una sección')
+
+
+# I have this table for many to many fields
+class DiasDeLaSemana(models.Model):
+    dias = models.CharField(verbose_name='Días', max_length=50,
+                            validators=[validacion_dias_de_la_semana], default='', unique=True)
+
+    def __str__(self):
+        return self.dias
 
 
 # Tablas para prontuario clases
