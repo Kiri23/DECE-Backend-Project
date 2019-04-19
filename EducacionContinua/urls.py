@@ -33,6 +33,8 @@ urlpatterns = [
     path('jet_api/', include(jet_urls)),
     path('admin/', admin.site.urls),
     path('admin/doc/', include('django.contrib.admindocs.urls')),
+    path('nested_admin/', include('nested_admin.urls')),
+
 ]
 # Add to the url patterns this for search media
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
