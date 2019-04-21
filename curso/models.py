@@ -5,7 +5,7 @@ from profesor.models import Profesor
 
 from .validators import validacion_dias_de_la_semana
 from django.core.validators import MaxValueValidator, MinValueValidator
-from .queryset import CursoQuerySet, CategoriasQuerySet
+from .queryset import CursoQuerySet, CategoriasQuerySet, TemasQuerySet, SubtemasQuerySet
 
 
 class Curso(models.Model):
@@ -84,6 +84,9 @@ class Temas(models.Model):
     # subtema = models.ForeignKey(
     #     'Subtemas', on_delete=models.CASCADE, null=True)
 
+    # Specific properties to the model
+    objects = TemasQuerySet.as_manager()
+
     def __str__(self):
         return self.nombre
 
@@ -97,6 +100,9 @@ class Subtemas(models.Model):
     tema = models.ForeignKey(
         'Temas', on_delete=models.CASCADE, blank=True, null=True)
     nombre = models.CharField(max_length=2000)
+
+    # Specific properties to the model
+    objects = SubtemasQuerySet.as_manager()
 
     def __str__(self):
         return self.nombre

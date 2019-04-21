@@ -28,7 +28,7 @@ class TemasInline(NestedStackedInline):
     show_change_link = True
     search_fields = ('nombre',)
     classes = ("collapse",)
-    # This work because I have a extra package
+    # This work because I have an extra package
     inlines = [SubtemaInline, ]
 
 
