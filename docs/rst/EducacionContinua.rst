@@ -4,9 +4,11 @@ EducacionContinua package
 Submodules
 ----------
 
+.. todo::
+    Me falta incluir el sub modulo de settings.
+
 .. toctree::
 
-   EducacionContinua.settings
    EducacionContinua.urls
    EducacionContinua.wsgi
 

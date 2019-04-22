@@ -30,6 +30,9 @@ Para desarolladores
 
    rst/modules
 
+Las cosas que me faltan por hacer
+=================================
+.. todolist::
 
 Indice y busqueda
 ==================
