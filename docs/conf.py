@@ -15,7 +15,7 @@ import sys
 import django
 sys.path.insert(0, os.path.abspath('../'))
 sys.setrecursionlimit(1500)
-os.environ['DJANGO_SETTINGS_MODULE'] = 'EducacionContinua.settings'
+# os.environ['DJANGO_SETTINGS_MODULE'] = 'EducacionContinua.settings'
 django.setup()
 
 # -- Project information -----------------------------------------------------
