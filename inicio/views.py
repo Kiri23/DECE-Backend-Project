@@ -8,7 +8,27 @@ from websiteContenido.models import contenidoDelWebsite
 
 
 class inicio(View):
+    """
+    Aqui es donde esta la logica para la pagina de inicio. 
+    """
+
     def get(self, request, *args, **kwargs):
+        """
+        Cuando se hace un ``Get`` request a la pagina de inicio
+
+        Attributes
+        ----------
+        tipo_categoria
+           Esta variable la utilizo para filtar los cursos por categoria
+        listaDeCurso
+            Delega la acción a la applicación ``curso``. Especificamente el metodo  :py:func:`~curso.views.CursoListView.get_queryset` para cargar toda la lista de curso
+        mas_populares
+            Delega la acción a la applicación ``curso``. Especificamente el metodo  :py:func:`~curso.views.CursoListView.get_queryset` para que busque las categorias mas populares
+        categorias
+            Delega la acción a la applicación ``curso``. Especificamente el metodo  :py:func:`~curso.views.CursoListView.get_queryset` para que busque todas las categorias de la base de datos.  
+        textoHeader
+            El texto del *header* que se obtiene automaticamente de la base de datos. El texto es dinamico y la organización puede cambiar el contenido.           
+        """
         logger = logging.getLogger(__name__)
         # Aunque le este enviando el context al index.html. El context puede viajar anidamente los template. index.html -> base.html -> navbar.hmtl
         context = {"indexNavActiveClass": "active"}
@@ -45,7 +65,7 @@ def cargarListaDeCategorias():
         CategoriaListView)
     return masPopulares, categorias
 
-
+# El _ significa que es un metodo privado
 def _dictCategoria(categoria):
     data = {'tipo': 'Categoria', 'Categoria': categoria}
     return data
@@ -65,12 +85,10 @@ def buscarCursosPorTitulos(request):
         return cargarListaDeCurso(tipo_busqueda)
 
 
-'''
-    Este metodo se llama cuando un estudiante cambio el estado de un Checkbox para mostrar los diferentes cursos
-'''
-
-
 def obtenerCategoriaFromAjax(request):
+    """
+    Este metodo se llama cuando un estudiante cambio el estado de un Checkbox para mostrar los diferentes cursos filtrado por la categoria selecionada
+    """
     # if request.is_ajax():
     if request.method == 'GET':
         if 'categoria[]' in request.GET:
@@ -91,7 +109,11 @@ def obtenerCategoriaFromAjax(request):
 
 
 def muestraTodosLosCursos(queryParam, request):
+    """
+    Hace lo que el nombre de la funcion dice. El proposito de este metodo es mostrar todos los cursos cuando un usuario deseleciono todos las categorias 
+    """
     categoria = request.GET[queryParam]
+    #: Pon la categoria como "Todos" para que muestre todos los curso 
     tipo_categoria = _dictCategoria(categoria)
     queryDeCurso = cargarListaDeCurso(tipo_categoria)
     listaDeCurso = [curso for curso in queryDeCurso]

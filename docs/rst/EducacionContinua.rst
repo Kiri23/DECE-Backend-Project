@@ -8,7 +8,7 @@ Submodules
     Me falta incluir el sub modulo de settings. Y incluirlo en la linea 19 de conf.py
 
 .. toctree::
-
+   EducacionContinua.settings
    EducacionContinua.urls
    EducacionContinua.wsgi
 

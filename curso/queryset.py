@@ -8,9 +8,15 @@ class CursoQuerySet(models.QuerySet):
     '''
 
     def porCategorias(self, categorias):
+        """
+        Devuelve cursos por categorias
+        """
         return self.filter(categoria__nombre__in=categorias)
 
     def porTitulo(self, titulo):
+        """
+        Devuelve cursos por titulo
+        """
         print(f'queryset por titulo: {titulo}')
         # Utilizar el | para utilizar el or
         return self.filter(Q(titulo__icontains=titulo))
@@ -22,53 +28,40 @@ class CategoriasQuerySet(models.QuerySet):
     '''
 
     def masPopulares(self):
+        """
+        Devuelve las categorias mas populares
+        """
         return self.all().order_by('popularidad')[:5]
 
 
 class TemasQuerySet(models.QuerySet):
     '''
     Esta clase va a tener los querys relacionados con la tabla Temas
-
-    Methods
-    -------
-    porCursoId(id)\  
-      argumentos: id = El id del curso para buscar los temas 
-      > Devuelve el tema del curso
-
-    ---
-
-    .. seealso:: Esto es una prueba del see also.
-
-    Examples
-    --------
-    >>> a = 5 + 2
-
-    See Also
-    --------
-    un see also en numpy ways
-
-    warning
-    -------
-    warning en numpy ways
-
-
-    .. seealso:: Esto es una prueba del see also.
-
     '''
 
     def porCursoId(self, id):
         """
          Esta función solamente devuelva el nombre del tema   
         """
-        # return self.
-        pass
+        return self.filter(curso__pk=id).only('nombre')
 
 
 class SubtemasQuerySet(models.QuerySet):
     '''
     Esta clase va a tener los querys relacionados con la tabla Subtemas
     '''
-    pass
+
+    def subtemas(self, temas_id: int, curso_id: int):
+        """
+        Devuelve todos los subtemas para un teme que pertenezca a un especifico curso. Porque recuerda pueden haber un tema que pertenezca a mas de un curso. 
+
+        Esta funcion solo devuelve el nombre del subtema
+
+        :param temas_id: El id del tema
+        :param curso_id: El id del curso    
+        """
+        return self.filter(tema__pk=temas_id, tema__curso__pk=curso_id).only('nombre')
+
 
 # Examples of how to make documentation para que snphix la reconozca https://numpydoc.readthedocs.io/en/latest/example.html#source
 

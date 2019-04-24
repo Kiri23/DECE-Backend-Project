@@ -26,13 +26,19 @@ Para desarolladores
 -------------------
 
 .. toctree::
-   :maxdepth: 4
+   :glob:
+   :maxdepth: 1 
 
-   rst/modules
+   rst/index-*
+   rst/glosario
+
+.. Esto incluye todos los archivos que empiezan con index-* y analisis-*  
+
 
 Las cosas que me faltan por hacer
 =================================
 .. todolist::
+
 
 Indice y busqueda
 ==================
