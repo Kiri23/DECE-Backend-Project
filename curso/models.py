@@ -9,6 +9,9 @@ from .queryset import CursoQuerySet, CategoriasQuerySet, TemasQuerySet, Subtemas
 
 
 class Curso(models.Model):
+    """
+    Esta clase representa la tabla curso en la base de datos. Los campos son lo que estan abajos
+    """
     titulo = models.CharField(max_length=900)
     descripcion = models.TextField(verbose_name="descripción")
     costo = models.DecimalField(max_digits=6, decimal_places=2)
@@ -28,22 +31,26 @@ class Curso(models.Model):
     video = models.FileField(
         upload_to='curso/video/', blank=True)
 
-    # Specific properties to the model
+    #: Specific properties to the model
     objects = CursoQuerySet.as_manager()
 
     def __str__(self):
         return self.titulo
 
     def get_absolute_url(self):
+        "Coge la url de este curso para poder mostrarlo en pantalla. Se usa para redirecionar al detalle de cada curso en particular"
         return reverse("curso:curso", kwargs={"pk": self.pk})
 
 
 class Categorias(models.Model):
+    """
+    Esta clase representa la tabla Categoria en la base de datos.Un curso puede tener muchas categorias pero una categoria pertenece a un solo cursos. Es una relación de muchos a unos. Los campos son lo que estan abajos
+    """
     nombre = models.CharField(max_length=100, verbose_name='Nombre')
     popularidad = models.PositiveSmallIntegerField(
         default=20000, validators=[MinValueValidator(1)], help_text="Elija un numero para ordenar los cursos mediante la popularidad.")
 
-    # Specific properties to the model
+    #: Specific properties to the model
     objects = CategoriasQuerySet.as_manager()
 
     def __str__(self):
@@ -55,6 +62,10 @@ class Categorias(models.Model):
 
 
 class Seccion(models.Model):
+    """
+    Esta clase representa la tabla seccion en la base de datos. Un curso puede tener muchas secciones pero una sección pertenece a un solo cursos. Es una relación de muchos a unos. Los campos son lo que estan abajos
+    """
+    #: El curso que pertenece esta sección
     curso = models.ForeignKey(
         'Curso', on_delete=models.CASCADE, null=True)
     seccion = models.SlugField(
@@ -62,13 +73,12 @@ class Seccion(models.Model):
 
     def __str__(self):
         return self.seccion
-# Query for subtema Subtemas.objects.filter(tema__curso__pk=11)
-#
-
-# I have this table for many to many fields
 
 
 class DiasDeLaSemana(models.Model):
+    """
+    Esta clase representa la tabla Dias de la semana en la base de datos. Esta clase se utiliza para tener una relación de muchos a muchos en la tabla de cursos. Los campos son lo que estan abajos
+    """
     dias = models.CharField(verbose_name='Días', max_length=50,
                             validators=[validacion_dias_de_la_semana], default='', unique=True)
 
@@ -76,15 +86,17 @@ class DiasDeLaSemana(models.Model):
         return self.dias
 
 
-# Tablas para prontuario clases
 class Temas(models.Model):
+    """
+    Esta tabla se usa para representar el tema de un prontuario. 
+    """
     curso = models.ForeignKey(
         'Curso', on_delete=models.CASCADE, null=True)
     nombre = models.CharField(max_length=2000)
     # subtema = models.ForeignKey(
     #     'Subtemas', on_delete=models.CASCADE, null=True)
 
-    # Specific properties to the model
+    #: Specific properties to the model
     objects = TemasQuerySet.as_manager()
 
     def __str__(self):
@@ -97,11 +109,14 @@ class Temas(models.Model):
 
 
 class Subtemas(models.Model):
+    """
+    Esta tabla se usa para representar el subtema de un tema. Los temas y subtemas se utilizan para hacer el prontuario
+    """
     tema = models.ForeignKey(
         'Temas', on_delete=models.CASCADE, blank=True, null=True)
     nombre = models.CharField(max_length=2000)
 
-    # Specific properties to the model
+    #: Specific properties to the model
     objects = SubtemasQuerySet.as_manager()
 
     def __str__(self):

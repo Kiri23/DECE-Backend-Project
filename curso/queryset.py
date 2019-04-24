@@ -51,7 +51,7 @@ class SubtemasQuerySet(models.QuerySet):
     Esta clase va a tener los querys relacionados con la tabla Subtemas
     '''
 
-    def subtemas(self, temas_id: int, curso_id: int):
+    def subtemas(self, temas_id: list, curso_id: int):
         """
         Devuelve todos los subtemas para un teme que pertenezca a un especifico curso. Porque recuerda pueden haber un tema que pertenezca a mas de un curso. 
 
@@ -60,8 +60,12 @@ class SubtemasQuerySet(models.QuerySet):
         :param temas_id: El id del tema
         :param curso_id: El id del curso    
         """
-        return self.filter(tema__pk=temas_id, tema__curso__pk=curso_id).only('nombre')
-
+        try:
+            if type(temas_id) is list:
+                return self.filter(tema__pk__in=temas_id, tema__curso__pk=curso_id).only('nombre')
+        except expression as identifier:
+            # TODO: Send error to sentry
+            print('Hubo un error al buscar los subtemas para un prontuario. Los id de cada tema tienen que venir en una lista. Alomejor eso pude ser el error.')
 
 # Examples of how to make documentation para que snphix la reconozca https://numpydoc.readthedocs.io/en/latest/example.html#source
 

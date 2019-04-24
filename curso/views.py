@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.views import generic
-from .models import Curso, Categorias
+from .models import Curso, Categorias, Temas, Subtemas
 
 
 class CursoListView(generic.ListView):
@@ -93,6 +93,32 @@ class CursoDetailView(generic.DetailView):
 
     def obtenerProntuario(self):
         """
-        Esta funcion va a tener la logica para crear el prontuario de cada curso
+        Esta funcion va a tener la logica para crear el prontuario de cada curso. En :ref:`este archivo <prontuario-explicacion>` se explica el algoritmo.
+
+        Atrributes
+        ----------
+
         """
+        #: Si quieres coger el object del curso. en vez de kwargs es objects.
+        curso_id = self.kwargs['pk']
+        temas = Temas.objects.porCursoId(curso_id)
+        #: Contiene todos los ID de cada tema.
+        temas_id = [tema.id for tema in temas]
+        subtemas = None
+        #: :note: El argumento Tema_id tiene que ser una lista para que el query funcione
+        if type(temas_id) is list:
+            subtemas = Subtemas.objects.subtemas(temas_id, curso_id)
+            [print(subtema.nombre) for subtema in subtemas]
+            return self.getSubtemasAndTemasName(temas, subtemas)
+
         return "Texto que viene del view"
+
+    def getSubtemasAndTemasName(self, temas: list, subtemas: list):
+        if (Subtemas is not None) and (temas is not None):
+            temas_nombre = [tema.nombre for tema in temas]
+            subtemas_nombre = [subtemas.nombre for subtemas in subtemas]
+            return temas_nombre, subtemas_nombre
+
+    def get_queryset(self):
+        self.obtenerProntuario()
+        return super().get_queryset()
