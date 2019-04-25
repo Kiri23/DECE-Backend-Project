@@ -108,44 +108,55 @@ class CursoDetailView(generic.DetailView):
         #: :note: El argumento Tema_id tiene que ser una lista para que el query funcione
         if type(temas_id) is list:
             subtemas = Subtemas.objects.subtemas(temas_id, curso_id)
-            self.createDictionary(temas, subtemas)
-            print("nueva linea\n\n")
             return self.createDictionary(temas, subtemas)
-            return self.getSubtemasAndTemasName(temas, subtemas)
 
-        return "Texto que viene del view"
-
-    def getSubtemasAndTemasName(self, temas: list, subtemas: list):
-        if (Subtemas is not None) and (temas is not None):
-            temas_nombre = [tema.nombre for tema in temas]
-            subtemas_nombre = [subtemas.nombre for subtemas in subtemas]
-            return temas_nombre, subtemas_nombre
+        #: TODO: Callback error que pasa si no se puede coger los subtemas
+        return {}
 
     def createDictionary(self, temas: list, subtemas: list):
+        """
+        En esta función es que creo el dictionario para mostrar el pronturaio. El prontuario consite de temas y cada tema puede tener un subtema. 
+
+        Explicación del algoritmo: \n
+        Primero verifico si las listas no son vacias. Despues hago un loop anindado por tema y subtema. 
+
+        .. note::
+            Por cada tema hago un loop por todos los subtemas. Esto significa que si hay cinco temas yo visitos todos los subtemas cinco veces. Esto obviamente es malo para el perfomance. Buscar una mejor opción
+
+        En el loop de subtemas verificio si el id del tema es el mismo del subtema. Si un subtema pertenece a un tema en particular entonce creo el dictionario. Sigo añadiendo subtemas al mismo tema si hay mas de un subtema. Añado una lista vacia si un tema no tiene subtema. 
+        """
         if (Subtemas is not None) and (temas is not None):
             temp = None
             dictionary = {}
             for tema in temas:
+                print("---------")
+                print(f"para el tema: {tema.nombre}")
                 for subtema in subtemas:
+                    #: Si un tema tiene subtema
                     if (tema.id == subtema.tema_id):
                         tema_actual = tema.nombre
-                        print("====")
-                        print(
-                            f"tema pasado: {temp}. Tema actual: {tema_actual}")
-                        print("***")
                         if (tema_actual == temp):
                             dictionary[tema.nombre].append(subtema.nombre)
                         else:
                             dictionary[tema.nombre] = [subtema.nombre]
-                    """ print(
-                            f"Tema:{tema_actual}. temas-id:{tema.id}.\n Subtema:{subtema.nombre}. subtema-id:{subtema.id}. Temas-id:{subtema.tema_id}")"""
-                    # print(dictionary)
+                    else:
+                        print(
+                            f"Subtema que no van al mismo tema: {subtema.nombre}")
                     temp = tema_actual
 
-            print('hola')
-            print(dictionary)
+            #: Añadiendo Temas al dictionario que no tiene subtema
+            for tema in temas:
+                if tema.nombre in dictionary:
+                    print(f"Existe {tema.nombre} en el dictionary")
+                else:
+                    print(
+                        f"No existe {tema.nombre} en el dictioanry. Añadiendo ahora el tema")
+                    #: Un tema no tiene subtema
+                    dictionary[tema.nombre] = []
+
             return dictionary
 
     def get_queryset(self):
         self.obtenerProntuario()
+        print('nueva linea\n\n')
         return super().get_queryset()
