@@ -5,10 +5,10 @@ from .models import Curso, Categorias, Temas, Subtemas
 
 class CursoListView(generic.ListView):
     """
-    .. note:: 
-        Antes de ver estas clases deberías saber que los query que se hacen en la base de datos estan en la clase :py:class:`~curso.queryset` de esta aplicación. 
+    .. note::
+        Antes de ver estas clases deberías saber que los query que se hacen en la base de datos estan en la clase :py:class:`~curso.queryset` de esta aplicación.
 
-        Tambien si deseas saber donde es que se crea el HTML esta en la carpeta de templates del proyecto. En la documentación no se encuentra esta carpeta 
+        Tambien si deseas saber donde es que se crea el HTML esta en la carpeta de templates del proyecto. En la documentación no se encuentra esta carpeta
 
     Esta clase utiliza :term:`Class Based Views` de tipo ``ListView``. El proposito de esta clase es listar todos los cursos que se encuentren en la base de datos.
     """
@@ -16,7 +16,7 @@ class CursoListView(generic.ListView):
 
     def get_queryset(self, tipo):
         """
-        Como dice el nombre del metodo override el :term:`QuerySet` que se hace a la base de dato. 
+        Como dice el nombre del metodo override el :term:`QuerySet` que se hace a la base de dato.
         """
         print(f'cursoListView: {tipo}')
         return self.getCursos(self, tipo)
@@ -108,7 +108,9 @@ class CursoDetailView(generic.DetailView):
         #: :note: El argumento Tema_id tiene que ser una lista para que el query funcione
         if type(temas_id) is list:
             subtemas = Subtemas.objects.subtemas(temas_id, curso_id)
-            [print(subtema.nombre) for subtema in subtemas]
+            self.createDictionary(temas, subtemas)
+            print("nueva linea\n\n")
+            return self.createDictionary(temas, subtemas)
             return self.getSubtemasAndTemasName(temas, subtemas)
 
         return "Texto que viene del view"
@@ -118,6 +120,31 @@ class CursoDetailView(generic.DetailView):
             temas_nombre = [tema.nombre for tema in temas]
             subtemas_nombre = [subtemas.nombre for subtemas in subtemas]
             return temas_nombre, subtemas_nombre
+
+    def createDictionary(self, temas: list, subtemas: list):
+        if (Subtemas is not None) and (temas is not None):
+            temp = None
+            dictionary = {}
+            for tema in temas:
+                for subtema in subtemas:
+                    if (tema.id == subtema.tema_id):
+                        tema_actual = tema.nombre
+                        print("====")
+                        print(
+                            f"tema pasado: {temp}. Tema actual: {tema_actual}")
+                        print("***")
+                        if (tema_actual == temp):
+                            dictionary[tema.nombre].append(subtema.nombre)
+                        else:
+                            dictionary[tema.nombre] = [subtema.nombre]
+                    """ print(
+                            f"Tema:{tema_actual}. temas-id:{tema.id}.\n Subtema:{subtema.nombre}. subtema-id:{subtema.id}. Temas-id:{subtema.tema_id}")"""
+                    # print(dictionary)
+                    temp = tema_actual
+
+            print('hola')
+            print(dictionary)
+            return dictionary
 
     def get_queryset(self):
         self.obtenerProntuario()

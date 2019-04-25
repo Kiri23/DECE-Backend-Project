@@ -62,7 +62,7 @@ class SubtemasQuerySet(models.QuerySet):
         """
         try:
             if type(temas_id) is list:
-                return self.filter(tema__pk__in=temas_id, tema__curso__pk=curso_id).only('nombre')
+                return self.filter(tema__pk__in=temas_id, tema__curso__pk=curso_id).only('nombre', "tema_id")
         except expression as identifier:
             # TODO: Send error to sentry
             print('Hubo un error al buscar los subtemas para un prontuario. Los id de cada tema tienen que venir en una lista. Alomejor eso pude ser el error.')
