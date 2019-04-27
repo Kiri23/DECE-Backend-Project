@@ -96,7 +96,7 @@
             </div>
         </div>
         <!-- Partial of cursosRelacionados -->
-        {% include 'partials/_cursosRelacionados.html' %}
+        {% include 'partials/_cursosRelacionados.html' with cursos=view.getRelatedCourses %}
 
 
         <!-- This is to first some weird bug que succede con el accordion del prontuario

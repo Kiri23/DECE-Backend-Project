@@ -93,13 +93,13 @@ class CursoDetailView(generic.DetailView):
 
     def obtenerProntuario(self):
         """
-        Esta funcion va a tener la logica para crear el prontuario de cada curso. En :ref:`este archivo <prontuario-explicacion>` se explica el algoritmo.
+        Esta funcion va a tener la logica para crear el prontuario de cada curso.
 
         Atrributes
         ----------
 
         """
-        #: Si quieres coger el object del curso. en vez de kwargs es objects.
+        # Si quiere coger la instancia del curso es en sel.objects
         curso_id = self.kwargs['pk']
         temas = Temas.objects.porCursoId(curso_id)
         #: Contiene todos los ID de cada tema.
@@ -115,15 +115,17 @@ class CursoDetailView(generic.DetailView):
 
     def createDictionary(self, temas: list, subtemas: list):
         """
-        En esta función es que creo el dictionario para mostrar el pronturaio. El prontuario consite de temas y cada tema puede tener un subtema. 
+        En esta función es que creo el dictionario para mostrar el pronturaio. El prontuario consite de temas y cada tema puede tener un subtema.
 
         Explicación del algoritmo: \n
-        Primero verifico si las listas no son vacias. Despues hago un loop anindado por tema y subtema. 
+        Primero verifico si las listas no son vacias. Despues hago un loop anindado por tema y subtema.
 
         .. note::
             Por cada tema hago un loop por todos los subtemas. Esto significa que si hay cinco temas yo visitos todos los subtemas cinco veces. Esto obviamente es malo para el perfomance. Buscar una mejor opción
 
-        En el loop de subtemas verificio si el id del tema es el mismo del subtema. Si un subtema pertenece a un tema en particular entonce creo el dictionario. Sigo añadiendo subtemas al mismo tema si hay mas de un subtema. Añado una lista vacia si un tema no tiene subtema. 
+        En el loop de subtemas verificio si el id del tema es el mismo del subtema. Si un subtema pertenece a un tema en particular entonce creo el dictionario. Sigo añadiendo subtemas al mismo tema si hay mas de un subtema. Añado una lista vacia si un tema no tiene subtema.
+
+        No hay necesidad de modificar el queryset porque yo accedos los metodos en el template. Siempre y cuando sea un generic view y el metodo no contenga argumentos
         """
         if (Subtemas is not None) and (temas is not None):
             temp = None
@@ -156,7 +158,9 @@ class CursoDetailView(generic.DetailView):
 
             return dictionary
 
-    def get_queryset(self):
-        self.obtenerProntuario()
-        print('nueva linea\n\n')
-        return super().get_queryset()
+    def getRelatedCourses(self):
+        """
+        Este metodo busca los cursos relacionados para cada detalle de un curso. Este metodo delega el query para la base de datos en la clase :py:class:`~curso.queryset.CursoQuerySet` en el metodo:  :py:meth:`~curso.queryset.CursoQuerySet.relacionados`
+        """
+        curso_id = self.kwargs['pk']
+        return Curso.objects.relacionados(curso_id)

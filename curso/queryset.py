@@ -15,11 +15,31 @@ class CursoQuerySet(models.QuerySet):
 
     def porTitulo(self, titulo):
         """
-        Devuelve cursos por titulo
+        Devuelve cursos por titulo. Lo utilizo en el search
         """
         print(f'queryset por titulo: {titulo}')
         # Utilizar el | para utilizar el or
         return self.filter(Q(titulo__icontains=titulo))
+
+    def relacionados(self, id: int):
+        """
+        Esta función devuelve cursos parecidos por la misma categoria excluyendo el curso que representa el id del parametro
+
+        Arguments
+        ---------
+        id
+            El id del curso por el cual vas a excluir los cursos relacionados 
+        """
+        curso = self.filter(id=id).only('categoria')
+        if curso[0].categoria or id is not None:
+            # Check first if and index 0 exist.
+            curso_categoria = curso[0].categoria
+            related_course = self.filter(
+                categoria=curso_categoria).exclude(id=id)
+            return related_course
+
+        # TODO: What happen if there is a error
+        return None
 
 
 class CategoriasQuerySet(models.QuerySet):

@@ -6,8 +6,11 @@
         <h4 class="text-center">Cursos relacionados</h4>
     </div>
     <div class="offset-lg-2"></div>
+    {% for curso in cursos%}
     <div class="col-lg-2">
         <img src="{% static 'img/40.png' %}" alt="">
+        <p>{{curso}}</p>
     </div>
+    {%endfor%}
 </div>
 </div>
