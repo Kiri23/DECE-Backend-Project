@@ -155,7 +155,6 @@ class CursoDetailView(generic.DetailView):
                         f"No existe {tema.nombre} en el dictioanry. Añadiendo ahora el tema")
                     #: Un tema no tiene subtema
                     dictionary[tema.nombre] = []
-
             return dictionary
 
     def getRelatedCourses(self):

@@ -66,6 +66,8 @@ def cargarListaDeCategorias():
     return masPopulares, categorias
 
 # El _ significa que es un metodo privado
+
+
 def _dictCategoria(categoria):
     data = {'tipo': 'Categoria', 'Categoria': categoria}
     return data
@@ -89,23 +91,32 @@ def obtenerCategoriaFromAjax(request):
     """
     Este metodo se llama cuando un estudiante cambio el estado de un Checkbox para mostrar los diferentes cursos filtrado por la categoria selecionada
     """
-    # if request.is_ajax():
-    if request.method == 'GET':
-        if 'categoria[]' in request.GET:
-            # El usuario marco uno/s checkbox. Filtrar por esa categoria/s
-            # TODO Si lo pongo con el metodo no funciona. No se Porque
-            categoria = request.GET.getlist('categoria[]')
-            tipo_categoria = _dictCategoria(categoria)
-            queryDeCurso = cargarListaDeCurso(tipo_categoria)
-            listaDeCurso = [curso for curso in queryDeCurso]
-            data = {
-                'cursos': listaDeCurso
-            }
-            return JsonResponse(data)
-        elif 'categoria' in request.GET:
-            # volver a mostrar todos los cursos cuando el usuario deseleciono todos los checkbox
-            curso = muestraTodosLosCursos('categoria', request)
-            return JsonResponse(curso)
+    if request.is_ajax():
+        if request.method == 'GET':
+            if 'categoria[]' in request.GET:
+                # El usuario marco uno/s checkbox. Filtrar por esa categoria/s
+                # TODO Si lo pongo con el metodo no funciona. No se Porque
+                categoria = request.GET.getlist('categoria[]')
+                tipo_categoria = _dictCategoria(categoria)
+                queryDeCurso = cargarListaDeCurso(tipo_categoria)
+                listaDeCurso = [curso for curso in queryDeCurso]
+                data = {
+                    'cursos': listaDeCurso
+                }
+                return JsonResponse(data)
+            elif 'categoria' in request.GET:
+                # volver a mostrar todos los cursos cuando el usuario deseleciono todos los checkbox
+                curso = muestraTodosLosCursos('categoria', request)
+                return JsonResponse(curso)
+
+    queryDeCurso = cargarListaDeCurso("Todos")
+    listaDeCurso = [curso for curso in queryDeCurso]
+    print(f'lista de curso: {listaDeCurso}')
+    data = {
+        'cursos': listaDeCurso
+    }
+    return JsonResponse(data)
+    print("Hola")
 
 
 def muestraTodosLosCursos(queryParam, request):
@@ -113,7 +124,7 @@ def muestraTodosLosCursos(queryParam, request):
     Hace lo que el nombre de la funcion dice. El proposito de este metodo es mostrar todos los cursos cuando un usuario deseleciono todos las categorias 
     """
     categoria = request.GET[queryParam]
-    #: Pon la categoria como "Todos" para que muestre todos los curso 
+    #: Pon la categoria como "Todos" para que muestre todos los curso
     tipo_categoria = _dictCategoria(categoria)
     queryDeCurso = cargarListaDeCurso(tipo_categoria)
     listaDeCurso = [curso for curso in queryDeCurso]

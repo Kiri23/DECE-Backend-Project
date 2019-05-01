@@ -44,6 +44,7 @@ function removeCategory(checkBoxArr, checkBox) {
 function updateCursoAjax(categorias) {
     var data = { 'categoria': categorias }
     debugLog(data, DEBUG)
+    console.log(URL, "lA URL que se llama")
     // Ajax Call. The URL is pass in the inicio.html template
     $.get(URL, data).done(function (listaDeCurso) {
         console.log("fue succesful la llamada de Ajax")
@@ -68,7 +69,7 @@ function createHtml(listaDeCurso) {
                         <h5 class="card-title titulo_curso">` + listaDeCurso[index].titulo + `</h5>
                         <p class="card-text">`+ listaDeCurso[index].descripcion + `
                         </p>
-                        <a href="{% url 'curso:curso' curso.id %}" class="btn btn-primary">Ver mas</a>
+                        <a href="curso/`+ listaDeCurso[index].id + `"  class="btn btn-primary">Ver mas</a>
                     </div>
                 </div>
             </div>`

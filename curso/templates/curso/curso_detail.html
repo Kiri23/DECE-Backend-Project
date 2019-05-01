@@ -44,49 +44,14 @@
         <div class="offset-lg-2"></div>
         <div class="col-lg-10">
             <h4 class="text-center">Descripción</h4>
-            <h4>{{curso.descripcion| truncatewords:28}}<strong>Ver mas</strong>
-            </h4>
+            <h4 class="description-text">{{curso.descripcion}}</h4>
         </div>
     </div>
     <div class="row">
         <div class="offset-lg-2"></div>
         <div class="col-lg-10">
-            <div class="accordion">
-                {%for tema,subtemas in view.obtenerProntuario.items%}
-                <div class="card">
-                    <div class="card-header" id="heading-{{tema|cut:' '}}">
-                        <h5 class="mb-0">
-                            <button class="btn btn-link" data-toggle="collapse"
-                                data-target="#collapse-{{tema|cut:' ' }}" aria-expanded="true"
-                                aria-controls="collapse-{{tema|cut:' '}}">
-                                {{tema}}
-                            </button>
-                        </h5>
-                    </div> <!-- This close the title div-->
-                    <!-- Above start the body of the title accordion-->
-                    <!-- Cut is used to eliminate any whitespace  -->
-                    {%if forloop.first%}
-                    {# If it is the first add the class show else not add the class#}
-                    <div id="collapse-{{tema|cut:' '}}" class="collapse show" aria-labelledby="heading-{{tema|cut:' '}}"
-                        data-parent="#accordion">
-                        {%else%}
-                        <div id="collapse-{{tema|cut:' '}}" class="collapse" aria-labelledby="heading-{{tema|cut:' '}}"
-                            data-parent="#accordion">
-                            {%endif%}
-
-                            <div class="card-body">
-                                {%for subtema in subtemas%}
-                                <p>{{subtema}}</p>
-                                {%empty%}
-                                <p>No hay subtema para este tema</p>
-                                <!-- Here I put todos los subtemas dentro del body del tema-->
-                                {%endfor%}
-                            </div>
-                        </div>
-                    </div> <!-- This close the card component-->
-                    {%endfor%}
-                </div>
-            </div>
+            <!-- Partial of prontuario -->
+            {% include 'partials/_prontuario_accordion.html' with prontuario=view.obtenerProntuario.items %}
         </div>
 
         <div class="row py-5">
@@ -99,7 +64,12 @@
         {% include 'partials/_cursosRelacionados.html' with cursos=view.getRelatedCourses %}
 
 
-        <!-- This is to first some weird bug que succede con el accordion del prontuario
+
+
+
+
+
+        <!-- This is to fix some weird bug que succede con el accordion del prontuario
         Error message: Uncaught TypeError: Cannot read property 'querySelectorAll' of null
         For some reason If I add another accordion it fixes. The problem is that is triying to search something that is null que no esta en el dom y por eso aparece ese errror.
     -->
