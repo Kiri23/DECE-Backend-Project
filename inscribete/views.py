@@ -20,8 +20,17 @@ class Inscribete(FormView):
         """
          Si el form tiene información valida. Guarda la informacion en la base de datos.
         """
+        print('aqui')
         form = InscribeteForm(data=self.request.POST)
-        form.save()
+        # No guardes la información del formulario en la base de datos todavia
+        registracion = form.save(commit=False)
+        # Añade la información del curso a la tabla de registracion
+        registracion.curso = self.get_curso()
+        # Añade la información del usuario a la tabla de registracion
+        registracion.estudiante = self.request.user
+
+        registracion.save()
+        form.save_m2m()
 
         return super().form_valid(form)
 
@@ -50,3 +59,5 @@ class Inscribete(FormView):
             curso_id = self.kwargs['pk']
             curso = Curso.objects.get(pk=curso_id)
             cache.set('curso', curso)
+
+        return curso

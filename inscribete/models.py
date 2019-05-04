@@ -18,8 +18,12 @@ class Registracion(models.Model):
     ocupacion = models.CharField(max_length=900)
     telefono_del_trabajo = models.IntegerField()
     lugar_del_trabajo = models.CharField(max_length=900)
-    # Usuario 
+    # Usuario
+    estudiante = models.ForeignKey(
+        'usuario.CustomUser', on_delete=models.CASCADE, help_text="El estudiante que se esta registrando", default=None)
     # Curso
+    curso = models.ForeignKey(
+        'curso.Curso', on_delete=models.CASCADE, help_text="El curso que el estudiante se esta registrando", default=None)
 
     def __str__(self):
         return self.nombre

@@ -53,6 +53,6 @@ class InscribeteForm(forms.ModelForm):
         attrs={'class': 'form-control'}),required=True)
     class Meta:
         model = Registracion
-        # Do not exclude anything
-        exclude = []
+        # Excluye el curso y el estudiante del form y de la validacion. OJO! si remueve uno de los dos el form no se va a crear porque esta esperando que algunos de esos dos valores se llenen mediante el formulario en html. 
+        exclude = ['curso','estudiante']
         # fields = ['nombre', 'apellido', 'correo_electronico','fecha_de_nacimiento','lugar_de_nacimiento','numero_de_telefono','preparacion_academica','direccion','pueblo','pais','zip_code','ocupacion','telefono_del_trabajo','lugar_del_trabajo']
