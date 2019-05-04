@@ -13,7 +13,6 @@ class Inscribete(FormView):
     """
     form_class = InscribeteForm
     template_name = "inscribete/inscribete.html"
-    success_url = reverse_lazy('matricula')
 
     # def post(self, request, *args, **kwargs):
     def form_valid(self, form):
@@ -28,6 +27,8 @@ class Inscribete(FormView):
         registracion.curso = self.get_curso()
         # Añade la información del usuario a la tabla de registracion
         registracion.estudiante = self.request.user
+        # Añade a la url de succes el id del usuario para utilizarlo para cuando valla a comprar el curso
+        self.success_url = reverse_lazy('matricula',kwargs={'pk':self.request.user.id})
 
         registracion.save()
         form.save_m2m()

@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{%block breadcumb%}
+{{block.super}}
+<!-- Little hack to have breadcumnb dynamically without much work -->
+<li class="breadcrumb-item"><a>Curso</a></li>
+{%endblock%}
+
+{%block content%}
+<section class="curso">
+    <div class="container">
+        <h1>Matricula</h1>
+        {% for inscripcion in cursos_registrados %}
+        <h4>Curso: {{inscripcion.curso.titulo}}. Precio: {{inscripcion.curso.costo}} </h4>
+        {%endfor%}
+    </div>
+</section>
+
+{%endblock%}

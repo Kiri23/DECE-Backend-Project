@@ -19,7 +19,6 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls.static import static
 from django.conf import settings
-from jet_django.urls import jet_urls
 
 
 urlpatterns = [
@@ -30,7 +29,6 @@ urlpatterns = [
     path('curso/', include('curso.urls')),
     path('inscribete/', include('inscribete.urls')),
     path('matricula/', include('matricula.urls')),
-    path('jet_api/', include(jet_urls)),
     path('admin/', admin.site.urls),
     path('admin/doc/', include('django.contrib.admindocs.urls')),
     path('nested_admin/', include('nested_admin.urls')),

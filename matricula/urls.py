@@ -3,5 +3,5 @@ from . import views
 
 
 urlpatterns = [
-    path('', views.matricula, name='matricula')
+    path('<int:pk>', views.MatriculaListView.as_view(), name='matricula')
 ]

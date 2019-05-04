@@ -1,4 +1,5 @@
 from django.db import models
+from .queryset import InscribeteQueryset
 
 
 class Registracion(models.Model):
@@ -24,6 +25,9 @@ class Registracion(models.Model):
     # Curso
     curso = models.ForeignKey(
         'curso.Curso', on_delete=models.CASCADE, help_text="El curso que el estudiante se esta registrando", default=None)
+
+    #: Specific properties to the model
+    inscripciones = InscribeteQueryset.as_manager()
 
     def __str__(self):
         return self.nombre
