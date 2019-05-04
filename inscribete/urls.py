@@ -2,5 +2,5 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('', views.inscribete, name='inscribete')
+    path('<int:pk>', views.Inscribete.as_view(), name='inscribete')
 ]

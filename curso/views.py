@@ -2,6 +2,15 @@ from django.shortcuts import render
 from django.views import generic
 from .models import Curso, Categorias, Temas, Subtemas
 
+from django.conf import settings
+from django.core.cache.backends.base import DEFAULT_TIMEOUT
+from django.views.decorators.cache import cache_page
+from django.utils.decorators import method_decorator
+from django.core.cache import cache
+
+# Retrieve the variable i  setting where I defined the time to live(ttl) the cache
+CACHE_TTL = getattr(settings, 'CACHE_TTL', DEFAULT_TIMEOUT)
+
 
 class CursoListView(generic.ListView):
     """
@@ -84,12 +93,28 @@ class CategoriaListView(generic.ListView):
         return mas_populares, categorias
 
 
+# This cache the entire page the header and the html render content so it load fast
+@method_decorator(cache_page(900), name='dispatch')
 class CursoDetailView(generic.DetailView):
     """
     Esta clase detalla la información de cada curso por individual.
     """
     model = Curso
     context_object_name = 'curso'
+
+    def get_object(self, queryset=None):
+        """
+        Este metodo obtiene el object, el modelo que se esta mostrando en esta vista de detalle. La utilizo para guardar el objecto en la memoria cache
+        """
+        if queryset is None:
+            queryset = self.get_queryset()
+
+        curso = super().get_object(queryset)
+        cache.set('curso', curso)
+        if 'curso' in cache:
+            curso = cache.get('curso')
+            print(curso.costo)
+        return curso
 
     def obtenerProntuario(self):
         """

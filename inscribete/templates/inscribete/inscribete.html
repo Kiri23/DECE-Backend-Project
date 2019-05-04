@@ -1,7 +1,12 @@
 {% extends 'base.html' %}
+{%block breadcumb%}
+{{block.super}}
+<!-- Little hack to have breadcumnb dynamically without much work -->
+<li class="breadcrumb-item"><a>Curso</a></li>
+{%endblock%}
 
 {% block content%}
-<!-- Pasos -->
+<!-- Create a  partial Pasos -->
 <div class="container">
     <div class="row pb-5 pasosCuadrados">
         <div class="col-lg-3">
@@ -24,10 +29,13 @@
             <h4 class="ultimoCuadrado">Matriculate en el curso</h4>
         </div>
     </div>
+
+    {% if user.is_authenticated %}
+    <h3>{{user.username}} esta conetado</h3>
     <section class="InscribirseFormulario">
         <div class="accordion" id="accordionExample">
-            <form action="{% url 'matricula' %}" class="form needs-validation" role="form" autocomplete="off"
-                novalidate>
+            <form method="POST" class="form needs-validation" role="form" autocomplete="off" novalidate>
+                {% csrf_token %}
                 <section class="InformacionPersonal">
                     <div class="card">
                         <div class="card-header" id="headingOne">
@@ -47,7 +55,7 @@
                                 <div class="form-group">
                                     <label class="col-form-label form-control-label">Nombre </label>
                                     <div>
-                                        <input class="form-control" name="nombre" type="text" required>
+                                        {{form.nombre}}
                                         <div class="valid-feedback">
                                             <i class="fas fa-check fa-lg">
                                             </i>
@@ -63,7 +71,7 @@
                                 <div class="form-group">
                                     <!-- mx-auto to allign divs/things in center -->
                                     <label class="col-form-label form-control-label">Apellido: </label>
-                                    <input class="form-control" type="text" name="apellido" required>
+                                    {{form.apellido}}
                                     <div class=" valid-feedback">
                                         <i class="fas fa-check fa-lg">
                                         </i>
@@ -77,32 +85,21 @@
                                 </div>
                                 <div class="form-group ">
                                     <label class="col-form-label form-control-label">Género:</label>
-
+                                    {% for radio in form.generos %}
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="genero" id="exampleRadios1"
-                                            value="masculino" required>
-                                        <label class="form-check-label" for="exampleRadios1">
-                                            Masculino
-                                        </label>
+                                        {{radio}}
                                     </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="genero" id="exampleRadios2"
-                                            value="femenino" required>
-                                        <label class="form-check-label" for="exampleRadios2">
-                                            Femenino
-                                        </label>
-                                        <div class="valid-feedback">
-                                            <i class="fas fa-check fa-lg">
-                                            </i>
-                                            Género selecionado
-                                        </div>
-                                        <div class="invalid-feedback">
-                                            <i class="fas fa-times fa-lg">
-                                            </i>
-                                            Seleciona un género
-                                        </div>
+                                    {%endfor%}
+                                    <div class="valid-feedback">
+                                        <i class="fas fa-check fa-lg">
+                                        </i>
+                                        Género selecionado
                                     </div>
-
+                                    <div class="invalid-feedback">
+                                        <i class="fas fa-times fa-lg">
+                                        </i>
+                                        Seleciona un género
+                                    </div>
                                 </div>
                                 <div class="form-group ">
                                     <label class="col-form-label form-control-label">Fecha de
@@ -113,7 +110,7 @@
                                                 <i class="far fa-calendar-alt"></i>
                                             </span>
                                         </div>
-                                        <input class="form-control" type="date" name="fechaDeNacimiento" required>
+                                        {{form.fecha_de_nacimiento}}
                                         <div class="valid-feedback">
                                             <i class="fas fa-check fa-lg">
                                             </i>
@@ -136,8 +133,7 @@
                                                 <i class="far fa-hospital"></i>
                                             </span>
                                         </div>
-                                        <input class="form-control" type="text" name="lugarDeNacimiento"
-                                            id="autocomplete" required>
+                                        {{form.lugar_de_nacimiento}}
                                         <div class="valid-feedback">
                                             <i class="fas fa-check fa-lg">
                                             </i>
@@ -160,8 +156,7 @@
                                                 <i class="fas fa-envelope"></i>
                                             </span>
                                         </div>
-                                        <input class="form-control w-75" name="correoElectronico" type="email"
-                                            placeholder="email@gmail.com" required>
+                                        {{ form.correo_electronico}}
                                         <small id="correoElectronicoHelpTextInput" class="form-text text-muted d-block">
                                             Donde va a recibir la información de su curso comprado
                                         </small>
@@ -179,12 +174,11 @@
 
                                 </div>
                                 <div class="form-group ">
-                                    <label class="col-form-label form-control-label">Telefono:</label>
-                                    <input type="tel" name="telefono" id="telefono" size="300" pattern="\d{5}"
-                                        title="3-digit area code" placeholder="Ejemplo (787)-555-9876"
-                                        class="form-control w-75" required />
+                                    <label
+                                        class="col-form-label form-control-label">{{form.numero_de_telefono.label}}</label>
+                                    {{form.numero_de_telefono}}
                                     <small id="telefonoHelpTextInput" class="form-text text-muted d-block">
-                                        Por si necesitamos comunicarnos con usted
+                                        {{form.numero_de_telefono.help_text}}
                                     </small>
                                     <div class="valid-feedback">
                                         <i class="fas fa-check fa-lg">
@@ -197,38 +191,31 @@
                                         Escribe tu numero de telefono
                                     </div>
                                 </div>
-                            </div>
-                            <div class="form-group ">
-                                <label class="col-form-label form-control-label">Preparacion
-                                    academica mas alta:
-                                </label>
-                                <div class="input-group">
-                                    <div class="input-group-append">
-                                        <span class="input-group-text" id="inputGroupAppend">
-                                            <i class="fas fa-user-graduate"></i>
-                                        </span>
-                                    </div>
-                                    <select class="custom-select" name="preparaciónAcademica" required>
-                                        <option value="">Seleciona una opción</option>
-                                        <option value="novenoGrado">Noveno grado</option>
-                                        <option value="2">Decimo grado</option>
-                                        <option value="certificado">Certificado</option>
-                                        <option value="gradoAsociado">Grado asociado</option>
-                                    </select>
-                                    <div class="valid-feedback">
-                                        <i class="fas fa-check fa-lg">
-                                        </i>
-                                        Preparación academica elegida
-                                    </div>
-                                    <div class="invalid-feedback">
-                                        <i class="fas fa-times fa-lg">
-                                        </i>
-                                        Seleciona una opción
+                                <div class="form-group ">
+                                    <label class="col-form-label form-control-label">Preparacion
+                                        academica mas alta:
+                                    </label>
+                                    <div class="input-group">
+                                        <div class="input-group-append">
+                                            <span class="input-group-text" id="inputGroupAppend">
+                                                <i class="fas fa-user-graduate"></i>
+                                            </span>
+                                        </div>
+                                        {{form.preparacion_academica}}
+                                        <div class="valid-feedback">
+                                            <i class="fas fa-check fa-lg">
+                                            </i>
+                                            Preparación academica elegida
+                                        </div>
+                                        <div class="invalid-feedback">
+                                            <i class="fas fa-times fa-lg">
+                                            </i>
+                                            Seleciona una opción
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
                 </section>
                 <section class="direcciónPostal">
                     <div class="card">
@@ -247,9 +234,9 @@
                                 <div class="form-group">
                                     <label class="col-form-label form-control-label">Dirección:
                                     </label>
-                                    <input class="form-control" type="text" name="dirección" required>
+                                    {{form.direccion}}
                                     <small id="telefonoHelpTextInput" class="form-text text-muted d-block">
-                                        Ejemplo: Urb.Estancias Calle San Antonio 123
+                                        {{form.direccion.help_text}}
                                     </small>
                                     <div class="valid-feedback">
                                         <i class="fas fa-check fa-lg">
@@ -264,7 +251,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label class="col-form-label form-control-label">Pueblo:</label>
-                                    <input class="form-control" type="text" name="pueblo" required>
+                                    {{form.pueblo}}
                                     <div class="valid-feedback">
                                         <i class="fas fa-check fa-lg">
                                         </i>
@@ -278,7 +265,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label class="col-form-label form-control-label">País:</label>
-                                    <input class="form-control" type="text" name="país" required>
+                                    {{form.pais}}
                                     <div class="valid-feedback">
                                         <i class="fas fa-check fa-lg">
                                         </i>
@@ -292,8 +279,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label class="col-form-label form-control-label">Zip code:</label>
-                                    <input id="zipCode" class="form-control" name="zipCode" type="tel"
-                                        placeholder="XXXXX" pattern="\d{5}" required>
+                                    {{form.zip_code}}
                                     <div class="valid-feedback">
                                         <i class="fas fa-check fa-lg">
                                         </i>
@@ -335,7 +321,7 @@
                                     <label class="col-form-label form-control-label">Ocupación:
                                     </label>
                                     <div class="">
-                                        <input class="form-control" type="text" name="ocupación" required>
+                                        {{form.ocupacion}}
                                         <div class="valid-feedback">
                                             <i class="fas fa-check fa-lg">
                                             </i>
@@ -352,8 +338,7 @@
                                     <label id="labelTelefonoTrabajo" class="col-form-label form-control-label">Telefono
                                         de
                                         trabajo. Ejemplo</label>
-                                    <input id="telefonoDelTrabajo" class="form-control" type="tel"
-                                        name="telefonoDeTrabajo" placeholder="(XXX)XXX-XXXX" pattern="\d{5}" required>
+                                    {{form.telefono_del_trabajo}}
                                     <div id="feedbackTelefonoTrabajo" class="valid-feedback">
                                         <i class="fas fa-check fa-lg">
                                         </i>
@@ -368,7 +353,7 @@
                                 <div class="form-group">
                                     <label class="col-form-label form-control-label">Lugar de
                                         trabajo:</label>
-                                    <input class="form-control" type="text" name="lugarDeTrabajo" required>
+                                    {{form.lugar_del_trabajo}}
                                     <div class="valid-feedback">
                                         <i class="fas fa-check fa-lg">
                                         </i>
@@ -392,6 +377,9 @@
             </form>
         </div>
     </section>
-    <input class="awesomplete" data-list="Ada, Java, JavaScript, Brainfuck, LOLCODE, Node.js, Ruby on Rails" />
+    {%else %}
+    {#If user is not authenticaded#}
+    <a href="{% url 'login'%}?next={{request.path}}">Conectate</a>
+    {% endif %}
 </div>
 {% endblock%}
