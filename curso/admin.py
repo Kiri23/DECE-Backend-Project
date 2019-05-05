@@ -44,7 +44,7 @@ class CursoAdmin(NestedModelAdmin):
     filter_horizontal = ('dias',)
     fieldsets = (
         ('Información general ', {
-            'fields': ('titulo', 'descripcion', 'dias', 'costo', 'cupos', 'duracion', 'tieneSeccion', 'profesor', 'categoria', 'imagen', 'imagen_del_curso', 'video'),
+            'fields': ('titulo', 'descripcion', 'dias', 'costo', 'cupos', 'duracion', 'tieneSeccion', 'profesor', 'categoria', 'imagen', 'imagen_del_curso', 'video', 'video_del_curso'),
         }), ('Prontuario', {'fields': ()}),
     )
 
@@ -53,7 +53,7 @@ class CursoAdmin(NestedModelAdmin):
         SeccionInline
     ]
     # Preview de la imagen del curso
-    readonly_fields = ["imagen_del_curso"]
+    readonly_fields = ["imagen_del_curso", "video_del_curso"]
 
     # For rendering[modifying/hacking] the section inline after field tiene seccion
     change_form_template = 'admin/custom/change_form.html'
@@ -77,7 +77,18 @@ class CursoAdmin(NestedModelAdmin):
             width=350,
             height=350,
         ))
-    # TODO: Hacer lo mismo con el video. no me se el markuo html para el video
+
+    def video_del_curso(self, obj):
+        """
+        Esta funcion muestra el video como un preview en el admin. El parametro obj tiene acceso a todas las propiedades de este modelo que se esta modificando
+        """
+        return mark_safe('<video width="{width}" height="{height}" controls> <source src="{url}"> Tu browser no puede mostrar el video. </video>'.format(
+             url=obj.video.url,
+             width=350,
+             height=350,
+         )
+        )
+        
 
 
 class ProfesorAdmin(admin.ModelAdmin):
