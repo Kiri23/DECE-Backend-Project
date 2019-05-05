@@ -3,6 +3,7 @@ from django.contrib import admin
 from nested_admin import NestedModelAdmin, NestedStackedInline
 from .models import Curso, Categorias, Seccion, Temas, Subtemas, DiasDeLaSemana
 from profesor.models import Profesor
+from django.utils.safestring import mark_safe
 
 
 class SeccionInline(NestedStackedInline):
@@ -43,7 +44,7 @@ class CursoAdmin(NestedModelAdmin):
     filter_horizontal = ('dias',)
     fieldsets = (
         ('Información general ', {
-            'fields': ('titulo', 'descripcion', 'dias', 'costo', 'cupos', 'duracion', 'tieneSeccion', 'profesor', 'categoria', 'imagen', 'video'),
+            'fields': ('titulo', 'descripcion', 'dias', 'costo', 'cupos', 'duracion', 'tieneSeccion', 'profesor', 'categoria', 'imagen', 'imagen_del_curso', 'video'),
         }), ('Prontuario', {'fields': ()}),
     )
 
@@ -51,6 +52,8 @@ class CursoAdmin(NestedModelAdmin):
         TemasInline,
         SeccionInline
     ]
+    # Preview de la imagen del curso
+    readonly_fields = ["imagen_del_curso"]
 
     # For rendering[modifying/hacking] the section inline after field tiene seccion
     change_form_template = 'admin/custom/change_form.html'
@@ -64,6 +67,17 @@ class CursoAdmin(NestedModelAdmin):
                 'css/admin.css',
             )
         }
+
+    def imagen_del_curso(self, obj):
+        """
+        Esta funcion muestra la imagen como un preview en el admin. El parametro obj tiene acceso a todas las propiedades de este modelo que se esta modificando
+        """
+        return mark_safe('<img src="{url}" width="{width}" height={height} />'.format(
+            url=obj.imagen.url,
+            width=350,
+            height=350,
+        ))
+    # TODO: Hacer lo mismo con el video. no me se el markuo html para el video
 
 
 class ProfesorAdmin(admin.ModelAdmin):
