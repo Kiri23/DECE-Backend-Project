@@ -1,4 +1,6 @@
 {% extends 'base.html' %}
+{% load static %}
+
 {%block breadcumb%}
 {{block.super}}
 <!-- Little hack to have breadcumnb dynamically without much work -->
@@ -383,3 +385,17 @@
     {% endif %}
 </div>
 {% endblock%}
+
+{%block extraScript%}
+<!-- Libreria requerida para la validación de datos. Intl-tel-input -->
+<script src=" {% static 'library/int-Tel-Input/js/intlTelInput.min.js'%} " data-autoinit="true"></script>
+<!-- Google Places.js -->
+<script
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDjg0yeAHxx32XWE4zxODFr1vGaKhwdH4Q&libraries=places&callback=initAutocomplete"
+    async defer></script>
+<script src=" {% static  'js/inscribete.js'%}"></script>
+
+<!-- Libreria para places.js Algolia 
+        <script src=" {% static 'library/places/places.js'%}"></script>
+        <script src=" {% static 'library/autocomplete/awesomplete.min.js'%}" async></script>-->
+{%endblock%}

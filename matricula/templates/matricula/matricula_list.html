@@ -1,4 +1,10 @@
 {% extends 'base.html' %}
+{% load static %}
+
+{%block extraStyle %}
+<link rel="stylesheet" href="{% static 'css/matricula.css' %}">
+{%endblock%}
+
 {%block breadcumb%}
 {{block.super}}
 <!-- Little hack to have breadcumnb dynamically without much work -->
@@ -7,12 +13,57 @@
 
 {%block content%}
 <section class="curso">
-    <div class="container">
-        <h1>Matricula</h1>
+    <div class="container shopping-cart">
+        {#Si un estudiante por lo menos tiene un curso registrado muestra esa informacion#}
+        {%if cursos_registrados%}
+        <div class="column-labels">
+            <label class="product-image">Image</label>
+            <label class="product-details">Product</label>
+            <label class="product-price">Precio</label>
+            <label class="product-quantity">Cantidad</label>
+            <label class="product-removal">Remover</label>
+            <label class="product-line-price">Total</label>
+        </div>
+        {%endif%}
+        {#En este lugar muestro la lista de productos que el estudiante esta registrado#}
         {% for inscripcion in cursos_registrados %}
-        <h4>Curso: {{inscripcion.curso.titulo}}. Precio: {{inscripcion.curso.costo}} </h4>
+        <div class="product">
+            <div class="product-image">
+                {% if inscripcion.curso.imagen%}
+                <img src="{{inscripcion.curso.imagen.url}}">
+                {%endif%}
+            </div>
+            <div class="product-details">
+                <div class="product-title">{{inscripcion.curso.titulo}}</div>
+                <p class="product-description">{{inscripcion.curso.descripcion|truncatewords:40}}.</p>
+            </div>
+            <div class="product-price">{{inscripcion.curso.costo}}</div>
+            <div class="product-quantity">
+                <input type="number" value="1" min="1">
+            </div>
+            <div class="product-removal">
+                <button class="remove-product">
+                    Remove
+                </button>
+            </div>
+            <div class="product-line-price">{{inscripcion.curso.costo}}</div>
+        </div>
         {%endfor%}
+        {#En este lugar el total de todos los cursos protegidos#}
+        <div class="totals">
+            <div class="totals-item">
+                <label>Subtotal</label>
+                <div class="totals-value" id="cart-subtotal">71.97</div>
+            </div>
+            <div class="totals-item totals-item-total">
+                <label>Total</label>
+                <div class="totals-value" id="cart-total">90.57</div>
+            </div>
+        </div>
     </div>
 </section>
 
+{%endblock%}
+{%block extraScript%}
+<script src=" {% static  'js/matricula.js'%}"></script>
 {%endblock%}

@@ -44,7 +44,7 @@ class CursoAdmin(NestedModelAdmin):
     filter_horizontal = ('dias',)
     fieldsets = (
         ('Información general ', {
-            'fields': ('titulo', 'descripcion', 'dias', 'costo', 'cupos', 'duracion', 'tieneSeccion', 'profesor', 'categoria', 'imagen', 'imagen_del_curso', 'video', 'video_del_curso'),
+            'fields': ('titulo', 'descripcion', 'dias', 'costo', 'cupos', 'duracion', 'tieneSeccion', 'profesor', 'categoria', ('imagen', 'imagen_del_curso',), ('video', 'video_del_curso',)),
         }), ('Prontuario', {'fields': ()}),
     )
 
@@ -52,7 +52,7 @@ class CursoAdmin(NestedModelAdmin):
         TemasInline,
         SeccionInline
     ]
-    # Preview de la imagen del curso
+    # Preview de la imagen y video del curso
     readonly_fields = ["imagen_del_curso", "video_del_curso"]
 
     # For rendering[modifying/hacking] the section inline after field tiene seccion
