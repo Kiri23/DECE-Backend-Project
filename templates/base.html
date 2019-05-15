@@ -51,19 +51,6 @@
     <script src=" {% static 'library/jquery/jquery-3.3.1.min.js' %} "></script>
     <script src=" {%static 'library/popper/popper.min.js' %} "></script>
     <script src=" {%static 'library/bootstrap-4.3.1-dist/js/bootstrap.min.js'  %} "></script>
-
-    <!-- Estas tres librerias son de Inscribete page solamente. No deben estar en el base.html que se copia en todas las paginas  -->
-    <!-- Libreria requerida para la validación de datos. Intl-tel-input -->
-    <script src=" {% static 'library/int-Tel-Input/js/intlTelInput.min.js'%} " data-autoinit="true"></script>
-    <!-- Libreria para places.js Algolia -->
-    <script src=" {% static 'library/places/places.js'%}"></script>
-    <script src=" {% static 'library/autocomplete/awesomplete.min.js'%}" async></script>
-    <!-- Google Places.js -->
-    <script
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDjg0yeAHxx32XWE4zxODFr1vGaKhwdH4Q&libraries=places&callback=initAutocomplete"
-        async defer></script>
-    <script src=" {% static  'js/inscribete.js'%}"></script>
-
     {%block extraScript%}{%endblock%}
 
 
