@@ -23,11 +23,12 @@ from django.conf import settings
 
 urlpatterns = [
     path('', include('inicio.urls')),
-    path('users/', include('usuario.urls')),
-    path('users/', include('django.contrib.auth.urls')),
     path('profesor/', include('profesor.urls')),
     path('curso/', include('curso.urls')),
     path('inscribete/', include('inscribete.urls')),
+    # Como el user login esta dentro de la pagina de inscribete. La url del users/login tienen que matchear con lo que ya esta en inscribete
+    path('inscribete/users/', include('usuario.urls')),
+    path('inscribete/users/', include('django.contrib.auth.urls')),
     path('matricula/', include('matricula.urls')),
     path('admin/', admin.site.urls),
     path('admin/doc/', include('django.contrib.admindocs.urls')),

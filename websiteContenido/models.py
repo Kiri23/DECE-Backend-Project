@@ -11,3 +11,6 @@ class contenidoDelWebsite(models.Model):
 
     def __str__(self):
         return self.pagina
+
+    class Meta:
+        verbose_name_plural = "Encabezado"

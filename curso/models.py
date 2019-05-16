@@ -59,6 +59,7 @@ class Categorias(models.Model):
     class Meta:
         # for admin listView
         ordering = ['popularidad']
+        verbose_name_plural = "Categorias"
 
 
 class Seccion(models.Model):
@@ -73,6 +74,9 @@ class Seccion(models.Model):
 
     def __str__(self):
         return self.seccion
+
+    class Meta:
+        verbose_name_plural = "Seciones"
 
 
 class DiasDeLaSemana(models.Model):
@@ -106,6 +110,8 @@ class Temas(models.Model):
     # def save(self, *args, **kwargs):
     #     self.subtema.tema = self
     #     super().save(*args, **kwargs)
+    class Meta:
+        verbose_name_plural = "Temas"
 
 
 class Subtemas(models.Model):
@@ -121,6 +127,9 @@ class Subtemas(models.Model):
 
     def __str__(self):
         return self.nombre
+
+    class Meta:
+        verbose_name_plural = "Subtemas"
 
 
 # Codigo

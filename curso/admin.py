@@ -1,7 +1,7 @@
 from django.contrib import admin
 # I use this for nested inline formset inside temas inlines
 from nested_admin import NestedModelAdmin, NestedStackedInline
-from .models import Curso, Categorias, Seccion, Temas, Subtemas, DiasDeLaSemana
+from .models import Curso, Categorias, Seccion, Temas, Subtemas, DiasDeLaSemana, Categorias
 from profesor.models import Profesor
 from django.utils.safestring import mark_safe
 
@@ -83,20 +83,33 @@ class CursoAdmin(NestedModelAdmin):
         Esta funcion muestra el video como un preview en el admin. El parametro obj tiene acceso a todas las propiedades de este modelo que se esta modificando
         """
         return mark_safe('<video width="{width}" height="{height}" controls> <source src="{url}"> Tu browser no puede mostrar el video. </video>'.format(
-             url=obj.video.url,
-             width=350,
-             height=350,
-         )
+            url=obj.video.url,
+            width=350,
+            height=350,
         )
-        
+        )
 
 
 class ProfesorAdmin(admin.ModelAdmin):
     search_fields = ('nombre', 'apellido')
 
 
+class CursoInline(NestedStackedInline):
+    model = Curso
+    extra = 1
+    show_change_link = True
+    # This work because I change the the form template in my model admin class
+    insert_after = 'tieneSeccion'
+    classes = ("collapse",)
+
+
 class CategoriaAdmin(admin.ModelAdmin):
+    name="Categorias"
+    verbose_name = "Categorias"
     search_fields = ('nombre',)
+    inlines = [
+        CursoInline
+    ]
 
 
 class TemasAdmin(admin.ModelAdmin):

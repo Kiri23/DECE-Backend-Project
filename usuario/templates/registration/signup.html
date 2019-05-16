@@ -1,15 +1,63 @@
-{% extends 'base.html' %}
-{% load crispy_forms_tags %}
+{% extends 'inscribete/inscribete.html' %}
 
-{% block title %}Sign up{% endblock %}
+{% block title %}Crea una cuenta{% endblock %}
 
 {% block content %}
-<div class="container">
-  <h2>Sign up</h2>
-  <form method="post">
-    {% csrf_token %}
-    {{ form|crispy }}
-    <button class="btn btn-success" type="submit">Sign up</button>
-  </form>
+{% for error in field.errors %}
+<h3>hola</h3>
+<p style="color: red">{{ error }}</p>
+{% endfor %}
+<div class="container-sign" id="container-sign">
+  <div class="form-container sign-up-container">
+    <form method="post" action="/">
+      <!-- users/signup -->
+      {% csrf_token %}
+      <h1>Crea una cuenta</h1>
+      <!-- <div class="social-container">
+                <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" class="social"><i class="fab fa-google-plus-g"></i></a>
+                <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
+            </div>
+            <span>or use your email for registration</span> -->
+      {% for error in field.errors %}
+      <p style="color: red">{{ error }}</p>
+      {% endfor %}
+      <input type="text" name="username" placeholder="Nombre de usario" />
+      <input type="email" name="email" placeholder="Correo Electronico" />
+      <input type="password" name="password1" placeholder="Contraseña" />
+      <input type="password" name="password2" placeholder="Contraseña (Coonfirmacion)" />
+      <button type="submit">Crea la cuenta</button>
+    </form>
+  </div>
+  <div class="form-container sign-in-container">
+    <form method="post" action="/inscribete/users/login/">
+      {% csrf_token %}
+      <h1>Sign in</h1>
+      <div class="social-container">
+        <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
+        <a href="#" class="social"><i class="fab fa-google-plus-g"></i></a>
+        <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
+      </div>
+      <span>or use your account</span>
+      <input type="text" name="username" placeholder="Nombre de usuario" />
+      <input type="password" name="password" placeholder="Contraseña" />
+      <a href="#">Forgot your password?</a>
+      <button>Sign In</button>
+    </form>
+  </div>
+  <div class="overlay-container">
+    <div class="overlay">
+      <div class="overlay-panel overlay-left">
+        <h1>Welcome Back!</h1>
+        <p>To keep connected with us please login with your personal info</p>
+        <button class="ghost" id="signIn">Sign In</button>
+      </div>
+      <div class="overlay-panel overlay-right">
+        <h1>Hello, Friend!</h1>
+        <p>Enter your personal details and start journey with us</p>
+        <button class="ghost" id="signUp">Sign Up</button>
+      </div>
+    </div>
+  </div>
 </div>
 {% endblock content %}

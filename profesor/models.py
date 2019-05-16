@@ -12,5 +12,8 @@ class Profesor(models.Model):
     def get_absolute_url(self):
         return reverse("profesor:profesor", kwargs={"pk": self.pk})
 
+    class Meta:
+        verbose_name_plural = "Profesores"
+
 # TODO:
 #   1) Hacer funcion para obtener el nombre en el modelo no en el queryset

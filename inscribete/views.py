@@ -28,7 +28,8 @@ class Inscribete(FormView):
         # Añade la información del usuario a la tabla de registracion
         registracion.estudiante = self.request.user
         # Añade a la url de succes el id del usuario para utilizarlo para cuando valla a comprar el curso
-        self.success_url = reverse_lazy('matricula',kwargs={'pk':self.request.user.id})
+        self.success_url = reverse_lazy(
+            'matricula', kwargs={'pk': self.request.user.id})
 
         registracion.save()
         form.save_m2m()
