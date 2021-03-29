@@ -36,7 +36,7 @@ psycopg2-binary==2.7.5
 purepng==0.2.0
 pycodestyle==2.5.0
 pydot==1.4.1
-Pygments==2.3.1
+Pygments==2.7.4
 pylint==2.3.1
 pylint-django==2.0.6
 pylint-plugin-utils==0.5
